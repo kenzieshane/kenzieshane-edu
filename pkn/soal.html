@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis Pendidikan Pancasila SMP/MTs</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1, h2 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        .quiz-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .question {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .options {
+            margin-left: 20px;
+        }
+        .option {
+            margin: 10px 0;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            display: block;
+            margin: 20px auto;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .result {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #e8f4fc;
+        }
+        .essay {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-left: 4px solid #3498db;
+            margin: 20px 0;
+        }
+        .hidden {
+            display: none;
+        }
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .nav-button {
+            width: 100px;
+        }
+        .progress-bar {
+            height: 10px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .progress {
+            height: 100%;
+            background-color: #2ecc71;
+            border-radius: 5px;
+            width: 0%;
+            transition: width 0.3s;
+        }
+        .answer-comparison {
+            margin-top: 30px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        }
+        .answer-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .question-number {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .user-answer {
+            color: #e74c3c;
+            margin: 5px 0;
+        }
+        .correct-answer {
+            color: #27ae60;
+            margin: 5px 0;
+        }
+        .correct {
+            color: #27ae60;
+        }
+        .incorrect {
+            color: #e74c3c;
+        }
+        .summary {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        .competency-info {
+            font-size: 0.9em;
+            color: #7f8c8d;
+            margin: 5px 0;
+        }
+        .highlight {
+            background-color: #fffde7;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Kuis Pendidikan Pancasila SMP/MTs</h1>
+    <h2>Tahun Ajaran 2024/2025</h2>
+    
+    <div class="progress-bar">
+        <div class="progress" id="progress"></div>
+    </div>
+    
+    <div id="quiz" class="quiz-container">
+        <!-- Questions will be inserted here by JavaScript -->
+    </div>
+    
+    <div class="navigation">
+        <button id="prev-btn" class="nav-button" onclick="prevQuestion()">Sebelumnya</button>
+        <button id="next-btn" class="nav-button" onclick="nextQuestion()">Selanjutnya</button>
+    </div>
+    
+    <button id="submit-btn" onclick="showResult()" class="hidden">Lihat Hasil</button>
+    
+    <div id="result" class="result hidden"></div>
+    
+    <div id="answer-comparison" class="answer-comparison hidden"></div>
+    
+    <div id="essay-section" class="hidden">
+        <h2>Pertanyaan Uraian</h2>
+        
+        <div class="essay">
+            <h3>31. Teori Kedaulatan</h3>
+            <p><strong>Jelaskan pengertian teori kedaulatan Tuhan!</strong></p>
+            <p><strong>Jawaban:</strong></p>
+            <p>Teori kedaulatan Tuhan adalah pandangan bahwa kekuasaan tertinggi dalam suatu negara berasal dari Tuhan. Menurut teori ini:</p>
+            <ul>
+                <li>Kekuasaan pemerintah bersumber dari kehendak Tuhan</li>
+                <li>Pemimpin negara dianggap sebagai wakil Tuhan di bumi</li>
+                <li>Kebijakan pemerintah harus sesuai dengan kehendak Tuhan</li>
+                <li>Contoh penerapan: sistem kerajaan di masa lalu yang menganggap raja sebagai wakil Tuhan</li>
+            </ul>
+        </div>
+        
+        <div class="essay">
+            <h3>32. Wilayah Negara</h3>
+            <p><strong>Jelaskan makna wilayah Indonesia sebagai satu kesatuan ekonomi!</strong></p>
+            <p><strong>Jawaban:</strong></p>
+            <p>Makna wilayah Indonesia sebagai satu kesatuan ekonomi:</p>
+            <ol>
+                <li>Seluruh kekayaan alam Indonesia merupakan milik bersama bangsa Indonesia</li>
+                <li>Perekonomian disusun sebagai usaha bersama berdasar asas kekeluargaan</li>
+                <li>Pembangunan ekonomi dilaksanakan secara merata di seluruh wilayah Indonesia</li>
+                <li>Kebijakan ekonomi nasional berlaku sama untuk seluruh wilayah negara</li>
+                <li>Tidak ada pemisahan atau diskriminasi ekonomi antar daerah</li>
+            </ol>
+        </div>
+        
+        <div class="essay">
+            <h3>33. Kongres Pemuda II</h3>
+            <p><strong>Sebutkan hasil keputusan Kongres Pemuda II!</strong></p>
+            <p><strong>Jawaban:</strong></p>
+            <p>Hasil keputusan Kongres Pemuda II (28 Oktober 1928):</p>
+            <ul>
+                <li>Mengikrarkan <span class="highlight">Sumpah Pemuda</span> yang berisi:
+                    <ol>
+                        <li>Kami putra dan putri Indonesia mengaku bertumpah darah yang satu, tanah Indonesia</li>
+                        <li>Kami putra dan putri Indonesia mengaku berbangsa yang satu, bangsa Indonesia</li>
+                        <li>Kami putra dan putri Indonesia menjunjung bahasa persatuan, bahasa Indonesia</li>
+                    </ol>
+                </li>
+                <li>Menetapkan lagu "Indonesia Raya" ciptaan W.R. Supratman sebagai lagu kebangsaan</li>
+                <li>Menetapkan bendera Merah Putih sebagai bendera persatuan Indonesia</li>
+            </ul>
+        </div>
+        
+        <div class="essay">
+            <h3>34. Urusan Pemerintahan</h3>
+            <p><strong>Sebutkan 3 contoh urusan pemerintahan absolut!</strong></p>
+            <p><strong>Jawaban:</strong></p>
+            <p>Contoh urusan pemerintahan absolut (yang menjadi kewenangan pemerintah pusat):</p>
+            <ol>
+                <li>Politik luar negeri</li>
+                <li>Pertahanan dan keamanan</li>
+                <li>Peradilan (yudikatif)</li>
+                <li>Moneter dan fiskal nasional</li>
+                <li>Agama</li>
+            </ol>
+        </div>
+        
+        <div class="essay">
+            <h3>35. Kearifan Lokal</h3>
+            <p><strong>Analisislah kearifan lokal di daerah dan dampaknya terhadap masalah lingkungan/sosial!</strong></p>
+            <p><strong>Jawaban:</strong></p>
+            <p>Contoh analisis kearifan lokal dan dampaknya:</p>
+            <p><strong>1. Sistem Subak di Bali</strong></p>
+            <ul>
+                <li>Kearifan lokal: Sistem pengairan tradisional yang demokratis dan berkelanjutan</li>
+                <li>Dampak lingkungan: Menjaga kelestarian sumber air dan sawah</li>
+                <li>Dampak sosial: Memperkuat kerja sama dan gotong royong masyarakat</li>
+            </ul>
+            <p><strong>2. Hutan Larangan di Sumatera</strong></p>
+            <ul>
+                <li>Kearifan lokal: Larangan menebang pohon di hutan tertentu berdasarkan adat</li>
+                <li>Dampak lingkungan: Melestarikan keanekaragaman hayati</li>
+                <li>Dampak sosial: Mencegah konflik antarwarga tentang pemanfaatan hutan</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "1. Pengertian kearifan lokal adalah...",
+                options: [
+                    "A. Kebijakan pemerintah pusat untuk daerah",
+                    "B. Pengetahuan dan kebiasaan lokal yang berkembang dalam masyarakat",
+                    "C. Peraturan hukum nasional yang berlaku di daerah",
+                    "D. Teknologi modern yang diterapkan di pedesaan"
+                ],
+                answer: 1,
+                explanation: "Kearifan lokal mengacu pada pengetahuan dan kebiasaan lokal yang berkembang dalam masyarakat tertentu dan diwariskan secara turun-temurun.",
+                competency: "3.1 Memahami keragaman suku, agama, ras, dan antargolongan (SARA) dalam bingkai Bhinneka Tunggal Ika",
+                indicator: "Mengidentifikasi pengertian kearifan lokal",
+                level: "C1 (Mengingat)"
+            },
+            {
+                question: "2. Rumusan dasar negara menurut Ir. Soekarno adalah...",
+                options: [
+                    "A. Pancasila seperti yang kita kenal sekarang",
+                    "B. Nasionalisme, Internasionalisme, Demokrasi, Keadilan Sosial, Ketuhanan",
+                    "C. Persatuan, Kekeluargaan, Keseimbangan, Musyawarah, Keadilan",
+                    "D. Kebangsaan, Kemanusiaan, Kerakyatan, Keadilan, Ketuhanan"
+                ],
+                answer: 1,
+                explanation: "Ir. Soekarno mengusulkan 5 prinsip: Nasionalisme, Internasionalisme (Kemanusiaan), Demokrasi (Kerakyatan), Keadilan Sosial, dan Ketuhanan yang kemudian disempurnakan menjadi Pancasila.",
+                competency: "3.2 Menganalisis nilai-nilai Pancasila dalam kehidupan bermasyarakat",
+                indicator: "Menentukan rumusan dasar negara menurut Ir. Soekarno",
+                level: "C2 (Memahami)"
+            },
+            {
+                question: "3. Hasil sidang PPKI tanggal 18 Agustus 1945 adalah...",
+                options: [
+                    "A. Menetapkan UUD 1945",
+                    "B. Membentuk kabinet pertama",
+                    "C. Memilih presiden dan wakil presiden",
+                    "D. Menetapkan dasar negara"
+                ],
+                answer: 2,
+                explanation: "Pada 18 Agustus 1945, PPKI mengesahkan UUD 1945, memilih Soekarno-Hatta sebagai presiden-wakil presiden, dan membentuk KNIP sebagai pembantu presiden.",
+                competency: "3.3 Menganalisis sistem pemerintahan dan perundang-undangan",
+                indicator: "Mengidentifikasi hasil sidang PPKI tanggal 18 Agustus 1945",
+                level: "C1 (Mengingat)"
+            },
+            {
+                question: "4. Kerja sama dalam gotong royong mencerminkan nilai...",
+                options: [
+                    "A. Individualisme",
+                    "B. Kolektivisme",
+                    "C. Kapitalisme",
+                    "D. Liberalisme"
+                ],
+                answer: 1,
+                explanation: "Gotong royong mencerminkan nilai kolektivisme yang mengutamakan kebersamaan dan kerja sama dalam masyarakat.",
+                competency: "3.1 Memahami nilai-nilai gotong royong dalam kehidupan bermasyarakat",
+                indicator: "Menjelaskan pengertian kerja sama",
+                level: "C1 (Mengingat)"
+            },
+            {
+                question: "5. Contoh sikap yang menyebabkan disintegrasi adalah...",
+                options: [
+                    "A. Menghargai perbedaan pendapat",
+                    "B. Memaksakan kehendak kepada orang lain",
+                    "C. Bergotong royong membersihkan lingkungan",
+                    "D. Menghormati adat istiadat daerah lain"
+                ],
+                answer: 1,
+                explanation: "Memaksakan kehendak kepada orang lain dapat menimbulkan konflik dan perpecahan yang berpotensi menyebabkan disintegrasi bangsa.",
+                competency: "3.1 Menunjukkan sikap kebersamaan dan persatuan dalam masyarakat",
+                indicator: "Memberikan contoh sikap yang menyebabkan disintegrasi",
+                level: "C2 (Memahami)"
+            },
+            {
+                question: "6. Penyimpangan terhadap Pancasila di awal kemerdekaan ditunjukkan oleh...",
+                options: [
+                    "A. Proklamasi Kemerdekaan 17 Agustus 1945",
+                    "B. Pemberontakan PKI Madiun 1948",
+                    "C. Pembentukan Kabinet Presidensial",
+                    "D. Penyusunan UUD 1945"
+                ],
+                answer: 1,
+                explanation: "Pemberontakan PKI Madiun 1948 merupakan penyimpangan terhadap Pancasila karena bertujuan mengganti dasar negara dengan komunisme.",
+                competency: "3.2 Menganalisis peristiwa-peristiwa penting dalam mempertahankan kemerdekaan",
+                indicator: "Mengidentifikasi penyimpangan terhadap Pancasila di awal kemerdekaan",
+                level: "C2 (Memahami)"
+            },
+            {
+                question: "7. Sistematika UUD 1945 sebelum amandemen terdiri dari...",
+                options: [
+                    "A. Pembukaan, Batang Tubuh (16 bab), Penjelasan",
+                    "B. Pembukaan, Pasal-pasal, Lampiran",
+                    "C. Mukadimah, Batang Tubuh, Penutup",
+                    "D. Preambule, Articles, Amendments"
+                ],
+                answer: 0,
+                explanation: "Sebelum amandemen, UUD 1945 terdiri dari Pembukaan, Batang Tubuh (16 bab, 37 pasal), dan Penjelasan.",
+                competency: "3.3 Memahami sistem hukum dan perundang-undangan nasional",
+                indicator: "Menjelaskan sistematika UUD 1945 sebelum amandemen",
+                level: "C1 (Mengingat)"
+            },
+            {
+                question: "8. Tokoh yang mengusulkan penghapusan sila pertama dalam Piagam Jakarta adalah...",
+                options: [
+                    "A. Mr. Moh. Yamin",
+                    "B. Drs. Moh. Hatta",
+                    "C. Ir. Soekarno",
+                    "D. Ki Hajar Dewantara"
+                ],
+                answer: 1,
+                explanation: "Drs. Moh. Hatta menerima masukan dari perwakilan Indonesia Timur untuk menghapus 7 kata dalam Piagam Jakarta demi persatuan bangsa.",
+                competency: "3.2 Menganalisis perumusan dasar negara",
+                indicator: "Menjelaskan tokoh yang mengusulkan penghapusan sila pertama dalam Piagam Jakarta",
+                level: "C2 (Memahami)"
+            },
+            {
+                question: "9. Kekuasaan legislatif adalah...",
+                options: [
+                    "A. Kekuasaan untuk melaksanakan undang-undang",
+                    "B. Kekuasaan untuk membuat undang-undang",
+                    "C. Kekuasaan untuk mengadili pelanggaran hukum",
+                    "D. Kekuasaan untuk menafsirkan undang-undang"
+                ],
+                answer: 1,
+                explanation: "Kekuasaan legislatif adalah kekuasaan untuk membuat undang-undang yang di Indonesia dipegang oleh DPR bersama presiden.",
+                competency: "3.3 Memahami sistem pemerintahan demokrasi",
+                indicator: "Mengidentifikasi pengertian kekuasaan legislatif",
+                level: "C2 (Memahami)"
+            },
+            {
+                question: "10. Boedi Utomo didirikan pada tanggal...",
+                options: [
+                    "A. 20 Mei 1908",
+                    "B. 28 Oktober 1928",
+                    "C. 17 Agustus 1945",
+                    "D. 1 Juni 1945"
+                ],
+                answer: 0,
+                explanation: "Boedi Utomo didirikan pada 20 Mei 1908 oleh Dr. Sutomo dan kawan-kawan, yang kemudian diperingati sebagai Hari Kebangkitan Nasional.",
+                competency: "3.2 Menjelaskan perkembangan organisasi pergerakan nasional",
+                indicator: "Menentukan tanggal berdirinya organisasi Boedi Utomo",
+                level: "C1 (Mengingat)"
+            },
+            {
+                question: "11. Rumusan dasar negara yang sah tercantum dalam...",
+                options: [
+                    "A. Piagam Jakarta",
+                    "B. Pembukaan UUD 1945",
+                    "C. Keputusan PPKI",
+                    "D. Pidato Ir. Soekarno 1 Juni 1945"
+                ],
+                answer: 1,
+                explanation: "Rumusan Pancasila yang sah dan resmi tercantum dalam Pembukaan UUD 1945 alinea keempat.",
+                competency: "3.2 Menganalisis rumusan dasar negara",
+                indicator: "Menentukan rumusan dasar negara yang sah",
+                level: "C1 (Mengingat)"
+            },
+            {
+                question: "12. Yang bukan tugas dan wewenang MPR adalah...",
+                options: [
+                    "A. Mengubah dan menetapkan UUD",
+                    "B. Melantik presiden dan wakil presiden",
+                    "C. Memutuskan impeachment presiden",
+                    "D. Menetapkan peraturan daerah"
+                ],
+                answer: 3,
+                explanation: "Menetapkan peraturan daerah adalah wewenang DPRD, bukan MPR. Tugas MPR terkait UUD, presiden/wapres, dan impeachment.",
+                competency: "3.3 Memahami tugas dan wewenang lembaga negara",
+                indicator: "Mengidentifikasi yang bukan tugas dan wewenang MPR",
+                level: "C2 (Memahami)"
+            },
+            {
+                question: "13. Penyebab konflik dalam masyarakat adalah...",
+                options: [
+                    "A. Kesamaan pandangan politik",
+                    "B. Perbedaan kepentingan antarindividu/kelompok",
+                    "C. Persamaan status sosial ekonomi",
+                    "D. Keseragaman budaya"
+                ],
+                answer: 1,
+                explanation: "Perbedaan kepentingan antarindividu atau kelompok merupakan salah satu penyebab utama konflik dalam masyarakat.",
+                competency: "3.4 Menganalisis konflik sosial dan penyebabnya",
+                indicator: "Mengidentifikasi penyebab konflik dalam masyarakat",
+                level: "C2 (Memahami)"
+            },
+            {
+                question: "14. Cara mengatasi perbedaan budaya adalah...",
+                options: [
+                    "A. Menghindari interaksi dengan budaya lain",
+                    "B. Memaksakan budaya sendiri kepada orang lain",
+                    "C. Mempelajari dan menghargai budaya lain",
+                    "D. Menganggap budaya sendiri paling unggul"
+                ],
+                answer: 2,
+                explanation: "Mempelajari dan menghargai budaya lain merupakan cara bijak dalam mengatasi perbedaan budaya dalam masyarakat majemuk.",
+                competency: "3.4 Menganalisis upaya mengatasi konflik sosial",
+                indicator: "Menentukan cara mengatasi perbedaan budaya",
+                level: "C2 (Memahami)"
+            },
+            {
+                question: "15. Isi pokok Teks Proklamasi Kemerdekaan adalah...",
+                options: [
+                    "A. Pernyataan kemerdekaan Indonesia",
+                    "B. Susunan kabinet pertama",
+                    "C. Dasar negara Pancasila",
+                    "D. Sistem pemerintahan Indonesia"
+                ],
+                answer: 0,
+                explanation: "Teks Proklamasi berisi pernyataan kemerdekaan Indonesia dari penjajahan dan pengalihan kekuasaan.",
+                competency: "3.2 Menjelaskan makna proklamasi kemerdekaan",
+                indicator: "Menjelaskan isi pokok Teks Proklamasi Kemerdekaan",
+                level: "C1 (Mengingat)"
+            },
+            {
+                question: "16. Kegiatan yang mencerminkan semangat pendiri negara adalah...",
+                options: [
+                    "A. Hanya mementingkan kepentingan pribadi",
+                    "B. Menghindari tanggung jawab sosial",
+                    "C. Berjuang untuk kepentingan bangsa",
+                    "D. Acuh tak acuh terhadap masalah negara"
+                ],
+                answer: 2,
+                explanation: "Berjuang untuk kepentingan bangsa mencerminkan semangat patriotisme seperti yang ditunjukkan oleh pendiri negara.",
+                competency: "3.1 Menunjukkan semangat nasionalisme dan patriotisme",
+                indicator: "Menentukan makna kegiatan yang mencerminkan semangat pendiri negara",
+                level: "C2 (Memahami)"
+            },
+            {
+                question: "17. Ahli yang mengemukakan definisi norma adalah...",
+                options: [
+                    "A. Soerjono Soekanto",
+                    "B. Karl Marx",
+                    "C. Adam Smith",
+                    "D. Max Weber"
+                ],
+                answer: 0,
+                explanation: "Soerjono Soekanto adalah ahli sosiologi Indonesia yang banyak membahas tentang norma dalam masyarakat.",
+                competency: "3.3 Memahami norma dalam masyarakat",
+                indicator: "Menyebutkan ahli yang mengemukakan definisi norma",
+                level: "C1 (Mengingat)"
+            },
+            {
+                question: "18. Landasan hukum pencabutan Tap MPR No. II/MPR/1978 adalah...",
+                options: [
+                    "A. UUD 1945 Pasal 28",
+                    "B. Tap MPR No. III/MPR/2000",
+                    "C. UU No. 12 Tahun 2011",
+                    "D. Peraturan Presiden No. 1 Tahun 2003"
+                ],
+                answer: 1,
+                explanation: "Tap MPR No. II/MPR/1978 tentang P4 dicabut dengan Tap MPR No. III/MPR/2000 tentang Sumber Hukum dan Tata Urutan Perundang-undangan.",
+                competency: "3.2 Menjelaskan perkembangan ideologi negara",
+                indicator: "Mengidentifikasi landasan hukum pencabutan Tap MPR No. II/MPR/1978",
+                level: "C1 (Mengingat)"
+            },
+            {
+                question: "19. Contoh pelanggaran norma hukum adalah...",
+                options: [
+                    "A. Tidak membantu tetangga yang sakit",
+                    "B. Melanggar rambu lalu lintas",
+                    "C. Tidak mengucapkan salam saat bertamu",
+                    "D. Memakai pakaian tidak sesuai mode"
+                ],
+                answer: 1,
+                explanation: "Melanggar rambu lalu lintas merupakan pelanggaran norma hukum karena diatur dalam peraturan perundang-undangan dan ada sanksi resmi.",
+                competency: "3.4 Menganalisis pelanggaran norma hukum",
+                indicator: "Mengidentifikasi contoh pelanggaran norma hukum",
+                level: "C2 (Memahami)"
+            },
+            {
+                question: "20. Masalah akibat banyaknya penduduk usia produktif adalah...",
+                options: [
+                    "A. Kurangnya lapangan pekerjaan",
+                    "B. Menurunnya angka kelahiran",
+                    "C. Berkurangnya tenaga kerja",
+                    "D. Meningkatnya jumlah lansia"
+                ],
+                answer: 0,
+                explanation: "Banyaknya penduduk usia produktif dapat menimbulkan masalah jika tidak diimbangi dengan lapangan pekerjaan yang memadai.",
+                competency: "3.5 Mengidentifikasi tantangan demografi",
+                indicator: "Menentukan masalah akibat banyaknya penduduk usia produktif",
+                level: "C2 (Memahami)"
+            }
+        ];
+
+        let currentQuestion = 0;
+        let userAnswers = Array(questions.length).fill(null);
+        let quizStarted = false;
+
+        function displayQuestion() {
+            const quizElement = document.getElementById('quiz');
+            quizElement.innerHTML = '';
+            
+            const questionElement = document.createElement('div');
+            questionElement.className = 'question';
+            questionElement.innerHTML = `<h3>${questions[currentQuestion].question}</h3>`;
+            
+            const competencyInfo = document.createElement('div');
+            competencyInfo.className = 'competency-info';
+            competencyInfo.innerHTML = `<strong>Kompetensi:</strong> ${questions[currentQuestion].competency}<br>
+                                       <strong>Indikator:</strong> ${questions[currentQuestion].indicator}<br>
+                                       <strong>Level Kognitif:</strong> ${questions[currentQuestion].level}`;
+            questionElement.appendChild(competencyInfo);
+            
+            const optionsElement = document.createElement('div');
+            optionsElement.className = 'options';
+            
+            questions[currentQuestion].options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                
+                const radioInput = document.createElement('input');
+                radioInput.type = 'radio';
+                radioInput.name = 'answer';
+                radioInput.value = index;
+                radioInput.id = `option${index}`;
+                if (userAnswers[currentQuestion] === index) {
+                    radioInput.checked = true;
+                }
+                radioInput.onclick = () => {
+                    userAnswers[currentQuestion] = index;
+                };
+                
+                const label = document.createElement('label');
+                label.htmlFor = `option${index}`;
+                label.textContent = option;
+                
+                optionElement.appendChild(radioInput);
+                optionElement.appendChild(label);
+                optionsElement.appendChild(optionElement);
+            });
+            
+            questionElement.appendChild(optionsElement);
+            quizElement.appendChild(questionElement);
+            
+            // Update progress bar
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progress').style.width = `${progress}%`;
+            
+            // Update navigation buttons
+            document.getElementById('prev-btn').style.display = currentQuestion === 0 ? 'none' : 'block';
+            document.getElementById('next-btn').style.display = currentQuestion === questions.length - 1 ? 'none' : 'block';
+            document.getElementById('submit-btn').style.display = currentQuestion === questions.length - 1 ? 'block' : 'none';
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                displayQuestion();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                displayQuestion();
+            }
+        }
+
+        function showResult() {
+            let score = 0;
+            const answerComparison = document.getElementById('answer-comparison');
+            answerComparison.innerHTML = '<h2>Perbandingan Jawaban</h2>';
+            
+            for (let i = 0; i < questions.length; i++) {
+                const answerItem = document.createElement('div');
+                answerItem.className = 'answer-item';
+                
+                const questionNumber = document.createElement('div');
+                questionNumber.className = 'question-number';
+                questionNumber.textContent = `Soal ${i+1}: ${questions[i].question}`;
+                
+                const competencyInfo = document.createElement('div');
+                competencyInfo.className = 'competency-info';
+                competencyInfo.innerHTML = `<em>${questions[i].competency}</em>`;
+                answerItem.appendChild(competencyInfo);
+                
+                const userAnswerDiv = document.createElement('div');
+                userAnswerDiv.className = 'user-answer';
+                
+                let userAnswerText = "Anda tidak menjawab";
+                if (userAnswers[i] !== null) {
+                    userAnswerText = `Jawaban Anda: ${questions[i].options[userAnswers[i]]}`;
+                }
+                
+                userAnswerDiv.innerHTML = userAnswers[i] === questions[i].answer ? 
+                    `<span class="correct">${userAnswerText} ✓</span>` : 
+                    `<span class="incorrect">${userAnswerText} ✗</span>`;
+                
+                const correctAnswerDiv = document.createElement('div');
+                correctAnswerDiv.className = 'correct-answer';
+                correctAnswerDiv.textContent = `Jawaban Benar: ${questions[i].options[questions[i].answer]}`;
+                
+                const explanationDiv = document.createElement('div');
+                explanationDiv.className = 'explanation';
+                explanationDiv.innerHTML = `<strong>Penjelasan:</strong> ${questions[i].explanation}`;
+                
+                answerItem.appendChild(questionNumber);
+                answerItem.appendChild(userAnswerDiv);
+                answerItem.appendChild(correctAnswerDiv);
+                answerItem.appendChild(explanationDiv);
+                answerComparison.appendChild(answerItem);
+                
+                if (userAnswers[i] === questions[i].answer) {
+                    score++;
+                }
+            }
+            
+            const percentage = (score / questions.length) * 100;
+            const resultElement = document.getElementById('result');
+            resultElement.textContent = `Nilai Anda: ${score} dari ${questions.length} (${percentage.toFixed(1)}%)`;
+            resultElement.classList.remove('hidden');
+            
+            document.getElementById('quiz').classList.add('hidden');
+            document.getElementById('prev-btn').classList.add('hidden');
+            document.getElementById('next-btn').classList.add('hidden');
+            document.getElementById('submit-btn').classList.add('hidden');
+            
+            // Show answer comparison and essay section
+            answerComparison.classList.remove('hidden');
+            document.getElementById('essay-section').classList.remove('hidden');
+            
+            // Add summary
+            const summary = document.createElement('div');
+            summary.className = 'summary';
+            summary.innerHTML = `Anda menjawab <span class="correct">${score} benar</span> dan <span class="incorrect">${questions.length - score} salah</span> dari ${questions.length} soal.`;
+            answerComparison.insertBefore(summary, answerComparison.firstChild.nextSibling);
+        }
+
+        // Initialize the quiz
+        displayQuestion();
+    </script>
+</body>
+</html>
