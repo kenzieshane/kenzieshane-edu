@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pusat Belajar - US Kelas 9 2024/2025</title>
+    <style>
+        :root {
+            --primary: #4a6bff;
+            --secondary: #ff7e33;
+            --dark: #2d3748;
+            --light: #f7fafc;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 2.2rem;
+            font-weight: 700;
+        }
+        
+        h2 {
+            margin: 0.5rem 0 0;
+            font-weight: 500;
+            font-size: 1.4rem;
+            opacity: 0.9;
+        }
+        
+        .subject-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .subject-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: var(--dark);
+            border: 2px solid transparent;
+        }
+        
+        .subject-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary);
+        }
+        
+        .subject-card h3 {
+            margin-top: 0;
+            color: var(--primary);
+        }
+        
+        .subject-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 1rem;
+            color: #718096;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 600px) {
+            .subject-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Pusat Belajar Materi Sekolah</h1>
+            <h2>Ulangan Akhir (US) Kelas 9 2024/2025</h2>
+        </header>
+        
+        <div class="subject-grid">
+            <a href="ips/index.html" class="subject-card">
+                <div class="subject-icon">
+                    <i class="fas fa-globe-asia"></i>
+                </div>
+                <h3>Ilmu Pengetahuan Sosial</h3>
+                <p>Materi lengkap untuk persiapan US IPS</p>
+            </a>
+            
+            <a href="bindo/index.html" class="subject-card">
+                <div class="subject-icon">
+                    <i class="fas fa-book-open"></i>
+                </div>
+                <h3>Bahasa Indonesia</h3>
+                <p>Kumpulan materi Bahasa Indonesia</p>
+            </a>
+            
+            <a href="pkn/index.html" class="subject-card">
+                <div class="subject-icon">
+                    <i class="fas fa-landmark"></i>
+                </div>
+                <h3>Pendidikan Kewarganegaraan</h3>
+                <p>Materi PKN untuk ujian sekolah</p>
+            </a>
+        </div>
+        
+        <footer>
+            <p>© 2024 Pusat Belajar Materi Sekolah. Semua hak dilindungi.</p>
+        </footer>
+    </div>
+    
+    <script>
+        // Simple animation on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.subject-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.animation = `fadeInUp 0.5s ease forwards ${index * 0.1 + 0.3}s`;
+            });
+            
+            // Add a style element for the animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fadeInUp {
+                    from {
+                        opacity: 0;
+                        transform: translateY(20px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+</html>
