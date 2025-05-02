@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis Bahasa Indonesia SMP/MTs</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1, h2 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        .quiz-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .question {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .options {
+            margin-left: 20px;
+        }
+        .option {
+            margin: 10px 0;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            display: block;
+            margin: 20px auto;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .result {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #e8f4fc;
+        }
+        .essay {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-left: 4px solid #3498db;
+            margin: 20px 0;
+        }
+        .hidden {
+            display: none;
+        }
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .nav-button {
+            width: 100px;
+        }
+        .progress-bar {
+            height: 10px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .progress {
+            height: 100%;
+            background-color: #2ecc71;
+            border-radius: 5px;
+            width: 0%;
+            transition: width 0.3s;
+        }
+        .answer-comparison {
+            margin-top: 30px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        }
+        .answer-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .question-number {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .user-answer {
+            color: #e74c3c;
+            margin: 5px 0;
+        }
+        .correct-answer {
+            color: #27ae60;
+            margin: 5px 0;
+        }
+        .correct {
+            color: #27ae60;
+        }
+        .incorrect {
+            color: #e74c3c;
+        }
+        .summary {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        .text-quote {
+            font-style: italic;
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-left: 3px solid #3498db;
+            margin: 10px 0;
+        }
+        .competency-info {
+            font-size: 0.9em;
+            color: #7f8c8d;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Kuis Bahasa Indonesia SMP/MTs</h1>
+    <h2>Tahun Ajaran 2024/2025</h2>
+    
+    <div class="progress-bar">
+        <div class="progress" id="progress"></div>
+    </div>
+    
+    <div id="quiz" class="quiz-container">
+        <!-- Questions will be inserted here by JavaScript -->
+    </div>
+    
+    <div class="navigation">
+        <button id="prev-btn" class="nav-button" onclick="prevQuestion()">Sebelumnya</button>
+        <button id="next-btn" class="nav-button" onclick="nextQuestion()">Selanjutnya</button>
+    </div>
+    
+    <button id="submit-btn" onclick="showResult()" class="hidden">Lihat Hasil</button>
+    
+    <div id="result" class="result hidden"></div>
+    
+    <div id="answer-comparison" class="answer-comparison hidden"></div>
+    
+    <div id="essay-section" class="hidden">
+        <h2>Pertanyaan Uraian</h2>
+        
+        <div class="essay">
+            <h3>41. Ciri-ciri Pantun</h3>
+            <p>Bacalah pantun berikut!</p>
+            <div class="text-quote">
+                "Pergi ke pasar membeli selasih<br>
+                Jangan lupa bawa kantung plastik<br>
+                Rajin belajar siang dan malam<br>
+                Supaya kelak tidak menyesal dikemudian hari"
+            </div>
+            <p><strong>Jawaban:</strong></p>
+            <p>Ciri-ciri pantun:</p>
+            <ol>
+                <li>Terdiri dari 4 baris (larik)</li>
+                <li>Baris 1-2 merupakan sampiran, baris 3-4 merupakan isi</li>
+                <li>Bersajak a-b-a-b</li>
+                <li>Setiap baris terdiri dari 8-12 suku kata</li>
+            </ol>
+        </div>
+        
+        <div class="essay">
+            <h3>42. Unsur Teks Berita</h3>
+            <p>Bacalah kutipan teks berita berikut!</p>
+            <div class="text-quote">
+                "Gempa bumi berkekuatan 5,8 SR mengguncang wilayah Jawa Barat pada Senin pagi (15/1). Pusat gempa berada di kedalaman 10 km dengan episentrum 87 km barat daya Kabupaten Garut. Hingga berita ini diturunkan, belum ada laporan korban jiwa."
+            </div>
+            <p><strong>Jawaban:</strong></p>
+            <p>Unsur-unsur teks berita (ADIK SIMBA):</p>
+            <ul>
+                <li><strong>A</strong>pa: Gempa bumi 5,8 SR</li>
+                <li><strong>D</strong>imana: Jawa Barat, 87 km barat daya Garut</li>
+                <li><strong>K</strong>apan: Senin pagi (15/1)</li>
+                <li><strong>S</strong>iapa: - (bencana alam)</li>
+                <li><strong>M</strong>engapa: - (bencana alam)</li>
+                <li><strong>B</strong>agaimana: Pusat gempa di kedalaman 10 km, belum ada korban jiwa</li>
+            </ul>
+        </div>
+        
+        <div class="essay">
+            <h3>43. Sudut Pandang Cerpen</h3>
+            <p>Bacalah kutipan cerpen berikut!</p>
+            <div class="text-quote">
+                "Aku berjalan pelan di tepi pantai, merasakan butiran pasir yang hangat di antara jari-jariku. Pikiranku melayang kepada kejadian seminggu yang lalu, ketika dia masih ada di sisiku."
+            </div>
+            <p><strong>Jawaban:</strong></p>
+            <p>Sudut pandang yang digunakan pengarang adalah <strong>orang pertama</strong>, ditandai dengan penggunaan kata "aku" sebagai narator yang terlibat langsung dalam cerita.</p>
+        </div>
+        
+        <div class="essay">
+            <h3>44. Latar Cerpen</h3>
+            <p>Bacalah kutipan cerpen berikut!</p>
+            <div class="text-quote">
+                "Suara azan maghrib berkumandang dari masjid kampung ketika Rina pulang dari kebun. Matahari sudah mulai tenggelam di balik pepohonan kelapa yang menjulang. Bau tanah basah setelah hujan masih terasa menusuk hidung."
+            </div>
+            <p><strong>Jawaban:</strong></p>
+            <p>Latar dalam kutipan cerpen tersebut:</p>
+            <ul>
+                <li><strong>Latar waktu:</strong> Sore hari (waktu maghrib, matahari tenggelam)</li>
+                <li><strong>Latar tempat:</strong> Kampung (kebun, masjid kampung, pepohonan kelapa)</li>
+                <li><strong>Latar suasana:</strong> Tenang, alami (bau tanah basah, suara azan)</li>
+            </ul>
+        </div>
+        
+        <div class="essay">
+            <h3>45. Struktur Teks Cerita Inspiratif</h3>
+            <p>Bacalah kutipan teks berikut!</p>
+            <div class="text-quote">
+                "Seorang anak kecil bernama Andi setiap hari melihat ayahnya yang cacat kaki berjualan koran di perempatan jalan. Meski sering diejek teman-temannya, Andi selalu bangga pada ayahnya. Suatu hari, Andi mendapat nilai jelek di sekolah. Ayahnya tidak marah, malah membelikan es krim sambil berkata, 'Kegagalan hari ini adalah pelajaran untuk sukses besok.'"
+            </div>
+            <p><strong>Jawaban:</strong></p>
+            <p>Bagian-bagian teks cerita inspiratif:</p>
+            <ol>
+                <li><strong>Orientasi:</strong> Pengenalan tokoh (Andi dan ayahnya) dan latar (kehidupan sehari-hari)</li>
+                <li><strong>Perumitan peristiwa:</strong> Andi diejek teman-temannya dan mendapat nilai jelek</li>
+                <li><strong>Komplikasi:</strong> Konflik batin Andi menghadapi masalah</li>
+                <li><strong>Resolusi:</strong> Ayahnya memberikan nasihat bijak</li>
+                <li><strong>Koda:</strong> Pesan moral tentang menghadapi kegagalan (implisit)</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "1. Bacalah kutipan teks laporan percobaan berikut!",
+                text: "\"Dalam percobaan ini, kami menggunakan larutan <em>indikator asam-basa</em> untuk menguji pH berbagai sampel. Larutan yang bersifat asam akan memunculkan warna merah, sedangkan basa menimbulkan warna biru.\"",
+                options: [
+                    "A. Alat untuk mengukur suhu larutan",
+                    "B. Zat yang menunjukkan sifat asam atau basa melalui perubahan warna",
+                    "C. Larutan netral yang tidak berwarna",
+                    "D. Alat elektronik pengukur keasaman"
+                ],
+                answer: 1,
+                explanation: "Indikator asam-basa adalah zat yang menunjukkan sifat asam atau basa melalui perubahan warna, seperti yang dijelaskan dalam teks bahwa asam memunculkan warna merah dan basa warna biru.",
+                competency: "3.1 Mengidentifikasi informasi dari laporan percobaan yang dibaca dan didengar.",
+                indicator: "Menentukan makna kata dari teks laporan percobaan"
+            },
+            {
+                question: "2. Bacalah kutipan teks berikut!",
+                text: "\"Pembangunan taman kota ini sebenarnya baik, tetapi lokasinya kurang tepat karena menggusur lapangan sepak bola yang sudah puluhan tahun digunakan masyarakat.\"",
+                options: [
+                    "A. Teks tersebut memuji pembangunan taman kota",
+                    "B. Teks tersebut mengkritik pemilihan lokasi pembangunan",
+                    "C. Teks tersebut menjelaskan manfaat taman kota",
+                    "D. Teks tersebut menceritakan sejarah lapangan sepak bola"
+                ],
+                answer: 1,
+                explanation: "Teks tersebut berisi kritik tentang pemilihan lokasi pembangunan taman kota yang menggusur fasilitas publik yang sudah lama digunakan masyarakat.",
+                competency: "4.8 Mengungkapkan kritik, sanggahan, atau pujian dalam bentuk teks tanggapan",
+                indicator: "Mengomentari isi teks"
+            },
+            {
+                question: "3. Bacalah kutipan teks tanggapan berikut!",
+                text: "\"Film ini memiliki grafis yang memukau dan alur cerita yang menarik. Namun, penokohannya kurang berkembang sehingga penonton sulit merasakan empati terhadap karakter utamanya.\"",
+                options: [
+                    "A. Film ini sempurna dari semua aspek",
+                    "B. Film ini memiliki kelebihan dalam grafis dan alur cerita, tetapi kelemahan dalam penokohan",
+                    "C. Film ini buruk dan tidak layak ditonton",
+                    "D. Film ini hanya bagus dalam hal penokohan"
+                ],
+                answer: 1,
+                explanation: "Simpulan yang tepat adalah bahwa film memiliki kelebihan dalam grafis dan alur cerita, tetapi kelemahan dalam pengembangan karakter.",
+                competency: "4.7 Menyimpulkan isi teks tanggapan berupa kritik, sanggahan, atau pujian",
+                indicator: "Menyimpulkan isi paragraf teks tanggapan"
+            },
+            {
+                question: "4. Bacalah paragraf teks eksposisi berikut!",
+                text: "\"Pola hidup sehat harus dimulai dari kebiasaan sederhana seperti makan teratur, istirahat cukup, dan olahraga rutin. Kebiasaan ini jika dilakukan secara konsisten akan meningkatkan kualitas hidup dan mengurangi risiko berbagai penyakit.\"",
+                options: [
+                    "A. Manfaat olahraga rutin",
+                    "B. Pentingnya memulai pola hidup sehat dari kebiasaan sederhana",
+                    "C. Jenis-jenis penyakit akibat pola hidup tidak sehat",
+                    "D. Cara mengatur waktu makan yang baik"
+                ],
+                answer: 1,
+                explanation: "Ide pokok paragraf tersebut adalah pentingnya memulai pola hidup sehat dari kebiasaan sederhana seperti yang disebutkan di awal paragraf.",
+                competency: "3.13 Mengidentifikasi jenis saran, ajakan, arahan dalam teks persuasi",
+                indicator: "Menentukan ide pokok paragraf"
+            },
+            {
+                question: "5. Bacalah kutipan cerita inspiratif berikut!",
+                text: "\"Dengan tangan gemetar, Rina menerima hasil ujiannya. Nilainya jauh di bawah ekspektasi. Bu Guru kemudian menepuk pundaknya dan berkata, 'Kegagalan hari ini bukan akhir dari segalanya. Yang penting bagaimana kamu bangkit dan belajar dari ini.'\"",
+                options: [
+                    "A. Jangan pernah mengharapkan hasil yang baik",
+                    "B. Kegagalan adalah bagian dari proses belajar",
+                    "C. Guru harus selalu memuji muridnya",
+                    "D. Ujian sekolah tidak penting"
+                ],
+                answer: 1,
+                explanation: "Pesan penulis dalam teks tersebut adalah bahwa kegagalan merupakan bagian dari proses belajar dan yang terpenting adalah bagaimana kita bangkit darinya.",
+                competency: "4.5 Menyimpulkan unsur-unsur pembangun karya sastra dari cerita pendek",
+                indicator: "Menentukan pesan penulis"
+            },
+            {
+                question: "6. Bacalah kutipan fabel berikut!",
+                text: "\"Kancil yang licik berhasil menipu Buaya dengan janji akan membagikan daging. Ia menyuruh Buaya berbaris di sungai untuk dihitung, lalu melompati punggung mereka untuk menyebrangi sungai.\"",
+                options: [
+                    "A. Orientasi",
+                    "B. Komplikasi",
+                    "C. Resolusi",
+                    "D. Koda"
+                ],
+                answer: 1,
+                explanation: "Bagian tersebut merupakan komplikasi karena menceritakan konflik antara Kancil dan Buaya serta akal licik Kancil.",
+                competency: "3.12 Menelaah struktur dan kebahasaan fabel/legenda",
+                indicator: "Menentukan struktur teks"
+            },
+            {
+                question: "7. Bacalah kutipan fabel berikut! Kata yang dicetak miring akan menjadi pertanyaan.",
+                text: "\"Sang Kancil dikenal sebagai hewan yang <em>pandir</em>, selalu bisa lolos dari bahaya dengan akal liciknya.\"",
+                options: [
+                    "A. Bodoh",
+                    "B. Cerdik",
+                    "C. Malas",
+                    "D. Kuat"
+                ],
+                answer: 1,
+                explanation: "Kata 'pandir' dalam konteks fabel tersebut bermakna cerdik atau pintar, karena dijelaskan bahwa Kancil selalu lolos dari bahaya dengan akalnya.",
+                competency: "3.11 Mengidentifikasi informasi tentang fabel/legenda",
+                indicator: "Menentukan makna kata/ungkapan"
+            },
+            {
+                question: "8. Bacalah kutipan fabel berikut!",
+                text: "\"Semut bekerja keras sepanjang musim panas mengumpulkan makanan, sedangkan Belalang hanya bersantai. Ketika musim dingin tiba, Belalang kelaparan karena tidak memiliki persediaan makanan.\"",
+                options: [
+                    "A. Semut membantu Belalang",
+                    "B. Belalang menemukan sumber makanan baru",
+                    "C. Belalang kelaparan karena tidak bekerja",
+                    "D. Semut berbagi makanan dengan Belalang"
+                ],
+                answer: 2,
+                explanation: "Akibat konflik dalam fabel tersebut adalah Belalang kelaparan karena tidak bekerja dan mempersiapkan makanan saat musim panas.",
+                competency: "4.11 Menceritakan kembali isi cerita fabel/legenda",
+                indicator: "Menentukan akibat konflik"
+            },
+            {
+                question: "9. Bacalah kutipan cerpen berikut!",
+                text: "\"Tanpa ragu, Andi memberikan jaketnya kepada anak kecil yang menggigil kedinginan di halte bus, meski hujan masih mengguyur deras.\"",
+                options: [
+                    "A. Andi adalah orang yang peduli",
+                    "B. Andi adalah orang yang ceroboh",
+                    "C. Andi adalah orang yang egois",
+                    "D. Andi adalah orang yang penakut"
+                ],
+                answer: 0,
+                explanation: "Watak Andi yang peduli terbukti dari tindakannya memberikan jaket kepada anak kecil yang kedinginan meski dirinya sendiri akan kehujanan.",
+                competency: "4.5 Menyimpulkan unsur-unsur pembangun karya sastra",
+                indicator: "Menunjukkan bukti watak tokoh"
+            },
+            {
+                question: "10. Bacalah kutipan cerpen berikut!",
+                text: "\"Setiap pagi, Pak Jono selalu menyapu halaman rumah tetangganya yang sudah tua sebelum berangkat kerja, tanpa pernah mengharapkan imbalan.\"",
+                options: [
+                    "A. Pak Jono adalah tetangga yang malas",
+                    "B. Pak Jono adalah tetangga yang sombong",
+                    "C. Pak Jono adalah tetangga yang suka pamer",
+                    "D. Pak Jono adalah tetangga yang baik hati"
+                ],
+                answer: 3,
+                explanation: "Watak Pak Jono yang baik hati dan suka menolong terbukti dari kebiasaannya membantu tetangga tua tanpa mengharapkan imbalan.",
+                competency: "4.5 Menyimpulkan unsur-unsur pembangun karya sastra",
+                indicator: "Menentukan bukti watak tokoh"
+            },
+            {
+                question: "11. Bacalah kutipan naskah drama berikut yang bagian dialognya rumpang!",
+                text: "\"Ibu : (sambil memegang piring) Tolong ambilkan sapu di belakang rumah!<br>Anak : [...]<br>Ibu : Terima kasih, Nak.\"",
+                options: [
+                    "A. \"Aduh, malas ah!\"",
+                    "B. \"Iya, Bu. Segera saya ambilkan.\"",
+                    "C. \"Sapu yang mana, Bu?\"",
+                    "D. \"Kenapa harus saya?\""
+                ],
+                answer: 1,
+                explanation: "Dialog yang tepat untuk melengkapi bagian rumpang adalah respons yang patuh dan sopan dari anak terhadap permintaan ibunya.",
+                competency: "4.16 Menyajikan drama dalam bentuk pentas atau naskah",
+                indicator: "Melengkapi dialog sesuai konteks"
+            },
+            {
+                question: "12. Bacalah dua kutipan cerpen berikut!",
+                text: "Cerpen A: \"Cerita dimulai dengan deskripsi suasana pagi di desa yang tenang...\"<br>Cerpen B: \"Cerita langsung dibuka dengan konflik utama antara dua tokoh...\"",
+                options: [
+                    "A. Cerpen A menggunakan alur maju, Cerpen B menggunakan alur mundur",
+                    "B. Cerpen A menggunakan pengenalan latar, Cerpen B langsung ke konflik",
+                    "C. Kedua cerpen menggunakan sudut pandang orang pertama",
+                    "D. Kedua cerpen memiliki tema yang sama persis"
+                ],
+                answer: 1,
+                explanation: "Perbedaan pola pengembangan kedua cerpen tersebut adalah Cerpen A dimulai dengan pengenalan latar, sedangkan Cerpen B langsung masuk ke konflik utama.",
+                competency: "3.6 Menelaah struktur dan kebahasaan cerita pendek",
+                indicator: "Membandingkan pola pengembangan cerpen"
+            },
+            {
+                question: "13. Bacalah kutipan puisi berikut yang bagian lariknya rumpang!",
+                text: "\"Hujan bulan Juni [...]<br>Membawa kenangan yang terpendam\"",
+                options: [
+                    "A. \"Deras mengalir di selokan\"",
+                    "B. \"Sapu bersih debu jalanan\"",
+                    "C. \"Diam-diam menghanyutkan\"",
+                    "D. \"Membasahi bumi yang tandus\""
+                ],
+                answer: 2,
+                explanation: "Larik \"Diam-diam menghanyutkan\" paling tepat karena mengandung majas personifikasi dan sesuai dengan suasana puisi tentang kenangan.",
+                competency: "4.8 Menyajikan gagasan dalam bentuk puisi",
+                indicator: "Menentukan larik bermajas"
+            },
+            {
+                question: "14. Bacalah teks iklan berikut!",
+                text: "\"Diskon 50% untuk semua produk! Hanya 3 hari! Ayo belanja sekarang juga di toko kami!\"",
+                options: [
+                    "A. Iklan layanan masyarakat",
+                    "B. Iklan penawaran produk",
+                    "C. Iklan lowongan kerja",
+                    "D. Iklan keluarga berencana"
+                ],
+                answer: 1,
+                explanation: "Iklan tersebut bertujuan menawarkan produk dengan diskon, sehingga termasuk jenis iklan penawaran produk.",
+                competency: "3.4 Menelaah pola penyajian dan kebahasaan teks iklan",
+                indicator: "Menentukan jenis iklan berdasarkan tujuan"
+            },
+            {
+                question: "15. Bacalah dua kutipan teks berita berikut!",
+                text: "Berita A: \"Gempa terjadi pagi tadi... (paragraf 1: apa, di mana; paragraf 2: kapan, bagaimana)\"<br>Berita B: \"Korban gempa mencapai 10 orang... (paragraf 1: siapa, berapa; paragraf 2: mengapa, bagaimana)\"",
+                options: [
+                    "A. Berita A menggunakan struktur piramida terbalik, Berita B tidak",
+                    "B. Berita A menyajikan unsur ADIK SIMBA secara berurutan, Berita B tidak",
+                    "C. Kedua berita memiliki struktur yang sama persis",
+                    "D. Berita A lebih panjang dari Berita B"
+                ],
+                answer: 1,
+                explanation: "Perbedaan pola penyajiannya adalah Berita A menyajikan unsur ADIK SIMBA secara lebih berurutan dibanding Berita B yang langsung menyebutkan korban.",
+                competency: "3.2 Menelaah struktur dan kebahasaan teks berita",
+                indicator: "Menentukan perbedaan pola penyajian teks berita"
+            },
+            {
+                question: "16. Bacalah paragraf berikut!",
+                text: "\"Banyak yang setuju dengan rencana pembangunan mal baru karena akan menciptakan lapangan kerja. Namun, sebagian warga menolak karena lahan yang digunakan adalah satu-satunya ruang terbuka hijau di kelurahan ini.\"",
+                options: [
+                    "A. Pembangunan mal akan menciptakan lapangan kerja",
+                    "B. Mal baru diperlukan untuk perkembangan ekonomi",
+                    "C. Lahan yang digunakan adalah ruang terbuka hijau",
+                    "D. Semua warga setuju dengan pembangunan mal"
+                ],
+                answer: 2,
+                explanation: "Pernyataan ketidaksetujuan dalam paragraf tersebut adalah bahwa lahan yang digunakan adalah satu-satunya ruang terbuka hijau di kelurahan.",
+                competency: "3.7 Mengidentifikasi informasi berupa kritik dari teks tanggapan",
+                indicator: "Menentukan pendapat kontra dalam teks"
+            },
+            {
+                question: "17. Susunlah kalimat-kalimat acak berikut menjadi paragraf padu!",
+                text: "(1) Selain itu, olahraga juga meningkatkan kesehatan mental.<br>(2) Oleh karena itu, mari biasakan berolahraga secara teratur.<br>(3) Olahraga teratur memiliki banyak manfaat bagi kesehatan.<br>(4) Manfaat fisik antara lain meningkatkan kekuatan otot dan daya tahan tubuh.",
+                options: [
+                    "A. 3-4-1-2",
+                    "B. 2-3-4-1",
+                    "C. 1-2-3-4",
+                    "D. 4-3-2-1"
+                ],
+                answer: 0,
+                explanation: "Urutan yang padu adalah 3 (pernyataan umum) - 4 (manfaat fisik) - 1 (manfaat mental) - 2 (kesimpulan/ajakan).",
+                competency: "4.6 Menyajikan gagasan ke dalam teks eksposisi",
+                indicator: "Menyusun urutan kalimat menjadi paragraf padu"
+            },
+            {
+                question: "18. Bacalah kutipan teks laporan percobaan berikut!",
+                text: "\"Percobaan ini bertujuan mengetahui pengaruh cahaya terhadap pertumbuhan kacang hijau. Dua kelompok tanaman diberi perlakuan berbeda: satu di tempat terang, satu di tempat gelap. Hasilnya, tanaman di tempat terang tumbuh lebih subur.\"",
+                options: [
+                    "A. \"Pengaruh Cahaya pada Pertumbuhan Kacang Hijau\"",
+                    "B. \"Cara Menanam Kacang Hijau\"",
+                    "C. \"Jenis-Jenis Tanaman Kacang\"",
+                    "D. \"Manfaat Kacang Hijau\""
+                ],
+                answer: 0,
+                explanation: "Judul yang paling tepat adalah \"Pengaruh Cahaya pada Pertumbuhan Kacang Hijau\" karena mencerminkan tujuan dan hasil percobaan yang dilaporkan.",
+                competency: "3.1 Mengidentifikasi informasi dari laporan percobaan",
+                indicator: "Menentukan judul berdasarkan teks"
+            },
+            {
+                question: "19. Bacalah kutipan pidato persuasif berikut yang bagiannya rumpang!",
+                text: "\"Hadirin yang saya hormati, [...] Mari kita jaga kebersihan lingkungan dimulai dari diri sendiri dan keluarga.\"",
+                options: [
+                    "A. \"Sekian yang dapat saya sampaikan\"",
+                    "B. \"Kebersihan adalah tanggung jawab petugas kebersihan\"",
+                    "C. \"Kebersihan lingkungan merupakan cerminan kepribadian kita\"",
+                    "D. \"Acara hari ini sangat meriah\""
+                ],
+                answer: 2,
+                explanation: "Kalimat yang tepat untuk melengkapi pidato persuasif tersebut adalah yang mendukung ajakan menjaga kebersihan dengan memberikan alasan.",
+                competency: "4.4 Menuangkan gagasan dalam pidato",
+                indicator: "Melengkapi teks pidato persuasif"
+            },
+            {
+                question: "20. Bacalah ilustrasi berikut!",
+                text: "\"Sebuah komunitas lingkungan ingin membuat poster ajakan untuk mengurangi penggunaan plastik sekali pakai.\"",
+                options: [
+                    "A. Poster dengan gambar bumi tersenyum dan tulisan \"Gunakan Tas Belanja Ramah Lingkungan!\"",
+                    "B. Poster dengan gambar mobil dan tulisan \"Beli Mobil Baru Sekarang!\"",
+                    "C. Poster dengan gambar makanan dan tulisan \"Diskon 50% Semua Makanan!\"",
+                    "D. Poster dengan gambar selebriti dan tulisan \"Ikuti Akun Media Sosialku!\""
+                ],
+                answer: 0,
+                explanation: "Poster yang sesuai dengan ilustrasi adalah yang mengandung ajakan mengurangi plastik sekali pakai dengan alternatif tas belanja ramah lingkungan.",
+                competency: "4.4 Menyajikan gagasan dalam bentuk iklan, slogan, atau poster",
+                indicator: "Menentukan poster berdasarkan ilustrasi"
+            }
+        ];
+
+        let currentQuestion = 0;
+        let userAnswers = Array(questions.length).fill(null);
+        let quizStarted = false;
+
+        function displayQuestion() {
+            const quizElement = document.getElementById('quiz');
+            quizElement.innerHTML = '';
+            
+            const questionElement = document.createElement('div');
+            questionElement.className = 'question';
+            questionElement.innerHTML = `<h3>${questions[currentQuestion].question}</h3>`;
+            
+            if (questions[currentQuestion].text) {
+                const textElement = document.createElement('div');
+                textElement.className = 'text-quote';
+                textElement.innerHTML = questions[currentQuestion].text;
+                questionElement.appendChild(textElement);
+            }
+            
+            const competencyInfo = document.createElement('div');
+            competencyInfo.className = 'competency-info';
+            competencyInfo.innerHTML = `<strong>Kompetensi:</strong> ${questions[currentQuestion].competency}<br>
+                                       <strong>Indikator:</strong> ${questions[currentQuestion].indicator}`;
+            questionElement.appendChild(competencyInfo);
+            
+            const optionsElement = document.createElement('div');
+            optionsElement.className = 'options';
+            
+            questions[currentQuestion].options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                
+                const radioInput = document.createElement('input');
+                radioInput.type = 'radio';
+                radioInput.name = 'answer';
+                radioInput.value = index;
+                radioInput.id = `option${index}`;
+                if (userAnswers[currentQuestion] === index) {
+                    radioInput.checked = true;
+                }
+                radioInput.onclick = () => {
+                    userAnswers[currentQuestion] = index;
+                };
+                
+                const label = document.createElement('label');
+                label.htmlFor = `option${index}`;
+                label.textContent = option;
+                
+                optionElement.appendChild(radioInput);
+                optionElement.appendChild(label);
+                optionsElement.appendChild(optionElement);
+            });
+            
+            questionElement.appendChild(optionsElement);
+            quizElement.appendChild(questionElement);
+            
+            // Update progress bar
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progress').style.width = `${progress}%`;
+            
+            // Update navigation buttons
+            document.getElementById('prev-btn').style.display = currentQuestion === 0 ? 'none' : 'block';
+            document.getElementById('next-btn').style.display = currentQuestion === questions.length - 1 ? 'none' : 'block';
+            document.getElementById('submit-btn').style.display = currentQuestion === questions.length - 1 ? 'block' : 'none';
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                displayQuestion();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                displayQuestion();
+            }
+        }
+
+        function showResult() {
+            let score = 0;
+            const answerComparison = document.getElementById('answer-comparison');
+            answerComparison.innerHTML = '<h2>Perbandingan Jawaban</h2>';
+            
+            for (let i = 0; i < questions.length; i++) {
+                const answerItem = document.createElement('div');
+                answerItem.className = 'answer-item';
+                
+                const questionNumber = document.createElement('div');
+                questionNumber.className = 'question-number';
+                questionNumber.textContent = `Soal ${i+1}: ${questions[i].question}`;
+                
+                if (questions[i].text) {
+                    const textElement = document.createElement('div');
+                    textElement.className = 'text-quote';
+                    textElement.innerHTML = questions[i].text;
+                    answerItem.appendChild(textElement);
+                }
+                
+                const userAnswerDiv = document.createElement('div');
+                userAnswerDiv.className = 'user-answer';
+                
+                let userAnswerText = "Anda tidak menjawab";
+                if (userAnswers[i] !== null) {
+                    userAnswerText = `Jawaban Anda: ${questions[i].options[userAnswers[i]]}`;
+                }
+                
+                userAnswerDiv.innerHTML = userAnswers[i] === questions[i].answer ? 
+                    `<span class="correct">${userAnswerText} ✓</span>` : 
+                    `<span class="incorrect">${userAnswerText} ✗</span>`;
+                
+                const correctAnswerDiv = document.createElement('div');
+                correctAnswerDiv.className = 'correct-answer';
+                correctAnswerDiv.textContent = `Jawaban Benar: ${questions[i].options[questions[i].answer]}`;
+                
+                const explanationDiv = document.createElement('div');
+                explanationDiv.className = 'explanation';
+                explanationDiv.innerHTML = `<strong>Penjelasan:</strong> ${questions[i].explanation}<br>
+                                          <em>Kompetensi: ${questions[i].competency}</em>`;
+                
+                answerItem.appendChild(questionNumber);
+                answerItem.appendChild(userAnswerDiv);
+                answerItem.appendChild(correctAnswerDiv);
+                answerItem.appendChild(explanationDiv);
+                answerComparison.appendChild(answerItem);
+                
+                if (userAnswers[i] === questions[i].answer) {
+                    score++;
+                }
+            }
+            
+            const percentage = (score / questions.length) * 100;
+            const resultElement = document.getElementById('result');
+            resultElement.textContent = `Nilai Anda: ${score} dari ${questions.length} (${percentage.toFixed(1)}%)`;
+            resultElement.classList.remove('hidden');
+            
+            document.getElementById('quiz').classList.add('hidden');
+            document.getElementById('prev-btn').classList.add('hidden');
+            document.getElementById('next-btn').classList.add('hidden');
+            document.getElementById('submit-btn').classList.add('hidden');
+            
+            // Show answer comparison and essay section
+            answerComparison.classList.remove('hidden');
+            document.getElementById('essay-section').classList.remove('hidden');
+            
+            // Add summary
+            const summary = document.createElement('div');
+            summary.className = 'summary';
+            summary.innerHTML = `Anda menjawab <span class="correct">${score} benar</span> dan <span class="incorrect">${questions.length - score} salah</span> dari ${questions.length} soal.`;
+            answerComparison.insertBefore(summary, answerComparison.firstChild.nextSibling);
+        }
+
+        // Initialize the quiz
+        displayQuestion();
+    </script>
+</body>
+</html>
