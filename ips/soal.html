@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis IPS SMP/MTs</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1, h2 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        .quiz-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .question {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .options {
+            margin-left: 20px;
+        }
+        .option {
+            margin: 10px 0;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            display: block;
+            margin: 20px auto;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .result {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #e8f4fc;
+        }
+        .essay {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-left: 4px solid #3498db;
+            margin: 20px 0;
+        }
+        .hidden {
+            display: none;
+        }
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .nav-button {
+            width: 100px;
+        }
+        .progress-bar {
+            height: 10px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .progress {
+            height: 100%;
+            background-color: #2ecc71;
+            border-radius: 5px;
+            width: 0%;
+            transition: width 0.3s;
+        }
+        .answer-comparison {
+            margin-top: 30px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        }
+        .answer-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .question-number {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .user-answer {
+            color: #e74c3c;
+            margin: 5px 0;
+        }
+        .correct-answer {
+            color: #27ae60;
+            margin: 5px 0;
+        }
+        .correct {
+            color: #27ae60;
+        }
+        .incorrect {
+            color: #e74c3c;
+        }
+        .summary {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Kuis IPS SMP/MTs</h1>
+    <h2>Tahun Ajaran 2024/2025</h2>
+    
+    <div class="progress-bar">
+        <div class="progress" id="progress"></div>
+    </div>
+    
+    <div id="quiz" class="quiz-container">
+        <!-- Questions will be inserted here by JavaScript -->
+    </div>
+    
+    <div class="navigation">
+        <button id="prev-btn" class="nav-button" onclick="prevQuestion()">Sebelumnya</button>
+        <button id="next-btn" class="nav-button" onclick="nextQuestion()">Selanjutnya</button>
+    </div>
+    
+    <button id="submit-btn" onclick="showResult()" class="hidden">Lihat Hasil</button>
+    
+    <div id="result" class="result hidden"></div>
+    
+    <div id="answer-comparison" class="answer-comparison hidden"></div>
+    
+    <div id="essay-section" class="hidden">
+        <h2>Pertanyaan Essay</h2>
+        <div class="essay">
+            <h3>1. Pengertian dan komponen peta</h3>
+            <p>Peta adalah gambaran permukaan bumi pada bidang datar dengan skala tertentu melalui suatu sistem proyeksi. Komponen peta meliputi: judul peta, skala peta, legenda, orientasi (arah mata angin), simbol, garis astronomis, inset, sumber dan tahun pembuatan peta, serta lettering (penulisan pada peta).</p>
+        </div>
+        
+        <div class="essay">
+            <h3>2. Teori masuknya agama Hindu-Buddha</h3>
+            <p>Ada beberapa teori tentang masuknya Hindu-Buddha ke Indonesia:</p>
+            <ol>
+                <li><strong>Teori Brahmana</strong>: Dibawa oleh para brahmana yang diundang penguasa lokal</li>
+                <li><strong>Teori Ksatria</strong>: Dibawa oleh golongan ksatria/raja yang melarikan diri</li>
+                <li><strong>Teori Waisya</strong>: Dibawa oleh pedagang India yang berinteraksi dengan penduduk</li>
+                <li><strong>Teori Arus Balik</strong>: Orang Indonesia pergi belajar ke India lalu kembali menyebarkan</li>
+            </ol>
+        </div>
+        
+        <div class="essay">
+            <h3>3. Peran pemerintah sebagai distributor</h3>
+            <p>Pemerintah berperan sebagai distributor dalam perekonomian dengan cara:</p>
+            <ul>
+                <li>Mendistribusikan barang/jasa publik seperti listrik, air, transportasi</li>
+                <li>Mengatur distribusi sumber daya strategis (minyak, gas, mineral)</li>
+                <li>Menyediakan bantuan sosial dan subsidi untuk masyarakat kurang mampu</li>
+                <li>Mengatur distribusi hasil produksi antar daerah untuk pemerataan</li>
+                <li>Mengawasi distribusi barang untuk mencegah monopoli dan ketidakadilan</li>
+            </ul>
+        </div>
+        
+        <div class="essay">
+            <h3>4. Dampak modernisasi terhadap budaya lokal</h3>
+            <p>Dampak modernisasi terhadap budaya lokal:</p>
+            <p><strong>Dampak Positif:</strong></p>
+            <ul>
+                <li>Pelestarian budaya melalui teknologi digital</li>
+                <li>Penyebaran informasi tentang budaya lebih luas</li>
+                <li>Pengembangan budaya dengan sentuhan modern</li>
+            </ul>
+            <p><strong>Dampak Negatif:</strong></p>
+            <ul>
+                <li>Erosi nilai-nilai tradisional</li>
+                <li>Perubahan gaya hidup yang meninggalkan budaya asli</li>
+                <li>Komersialisasi budaya yang mengurangi makna sakral</li>
+                <li>Dominasi budaya asing melalui media global</li>
+            </ul>
+        </div>
+        
+        <div class="essay">
+            <h3>5. Upaya penguatan SDM</h3>
+            <p>Upaya peningkatan SDM dapat dilakukan melalui:</p>
+            <ol>
+                <li>Peningkatan kualitas pendidikan dan pelatihan</li>
+                <li>Penyediaan fasilitas kesehatan yang memadai</li>
+                <li>Pengembangan program keterampilan dan vokasi</li>
+                <li>Peningkatan akses terhadap informasi dan teknologi</li>
+                <li>Pemberdayaan masyarakat melalui pendidikan sepanjang hayat</li>
+                <li>Kerjasama dengan industri untuk pelatihan kerja</li>
+                <li>Peningkatan gizi dan kesejahteraan dasar</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "1. Ciri-ciri perubahan sosial evolusi adalah...",
+                options: [
+                    "A. Perubahan terjadi secara cepat dan revolusioner",
+                    "B. Perubahan terjadi secara lambat dan bertahap",
+                    "C. Perubahan terjadi karena paksaan dari luar",
+                    "D. Perubahan terjadi tanpa rencana yang jelas"
+                ],
+                answer: 1,
+                explanation: "Perubahan sosial evolusi terjadi secara lambat dan bertahap dalam waktu yang lama tanpa adanya rencana tertentu."
+            },
+            {
+                question: "2. Letak astronomis Indonesia adalah...",
+                options: [
+                    "A. 6°LU - 11°LS dan 95°BT - 141°BT",
+                    "B. 6°LU - 11°LU dan 95°BT - 141°BT",
+                    "C. 6°LS - 11°LS dan 95°BB - 141°BB",
+                    "D. 6°BB - 11°BB dan 95°BT - 141°BT"
+                ],
+                answer: 0,
+                explanation: "Letak astronomis Indonesia adalah 6°LU - 11°LS dan 95°BT - 141°BT, yang menyebabkan Indonesia memiliki iklim tropis."
+            },
+            {
+                question: "3. Dampak posisi strategis Indonesia adalah...",
+                options: [
+                    "A. Menjadi pusat lalu lintas perdagangan dunia",
+                    "B. Memiliki iklim yang sangat dingin",
+                    "C. Terisolasi dari negara lain",
+                    "D. Memiliki satu musim saja"
+                ],
+                answer: 0,
+                explanation: "Posisi strategis Indonesia di antara dua benua dan dua samudera membuatnya menjadi pusat lalu lintas perdagangan dunia."
+            },
+            {
+                question: "4. Faktor pertumbuhan alami penduduk adalah...",
+                options: [
+                    "A. Kelahiran dan kematian",
+                    "B. Imigrasi dan emigrasi",
+                    "C. Urbanisasi dan transmigrasi",
+                    "D. Pernikahan dan perceraian"
+                ],
+                answer: 0,
+                explanation: "Pertumbuhan alami penduduk hanya dipengaruhi oleh kelahiran (natalitas) dan kematian (mortalitas), bukan migrasi."
+            },
+            {
+                question: "5. Negara di Benua Eropa berikut ini adalah...",
+                options: [
+                    "A. Mesir",
+                    "B. Prancis",
+                    "C. Jepang",
+                    "D. Brasil"
+                ],
+                answer: 1,
+                explanation: "Prancis adalah negara di Benua Eropa, sementara Mesir di Afrika, Jepang di Asia, dan Brasil di Amerika Selatan."
+            },
+            {
+                question: "6. Contoh kebutuhan primer manusia adalah...",
+                options: [
+                    "A. Mobil mewah",
+                    "B. Pakaian bagus",
+                    "C. Makanan pokok",
+                    "D. Liburan ke luar negeri"
+                ],
+                answer: 2,
+                explanation: "Kebutuhan primer adalah kebutuhan dasar untuk kelangsungan hidup, seperti makanan pokok, pakaian sederhana, dan tempat tinggal."
+            },
+            {
+                question: "7. Contoh tindakan ekonomi adalah...",
+                options: [
+                    "A. Menolong orang yang terjatuh",
+                    "B. Memberikan sedekah",
+                    "C. Membeli barang dengan pertimbangan harga",
+                    "D. Bermain dengan teman"
+                ],
+                answer: 2,
+                explanation: "Tindakan ekonomi adalah kegiatan manusia untuk memenuhi kebutuhan dengan mempertimbangkan pengorbanan dan hasil."
+            },
+            {
+                question: "8. Simbol pictorial untuk tempat ibadah pada peta biasanya berupa...",
+                options: [
+                    "A. Gambar pesawat",
+                    "B. Gambar rumah dengan salib atau kubah",
+                    "C. Gambar pohon",
+                    "D. Gambar kereta api"
+                ],
+                answer: 1,
+                explanation: "Simbol pictorial tempat ibadah biasanya menggambarkan bentuk bangunan dengan ciri khas agama tertentu seperti salib atau kubah."
+            },
+            {
+                question: "9. Masalah penduduk produktif adalah...",
+                options: [
+                    "A. Kurangnya lapangan pekerjaan",
+                    "B. Terlalu banyak anak-anak",
+                    "C. Jumlah lansia yang sedikit",
+                    "D. Tingkat pendidikan yang merata"
+                ],
+                answer: 0,
+                explanation: "Masalah utama penduduk usia produktif adalah ketika jumlah lapangan kerja tidak sebanding dengan jumlah pencari kerja."
+            },
+            {
+                question: "10. Gradasi warna biru pada peta menunjukkan...",
+                options: [
+                    "A. Ketinggian daratan",
+                    "B. Kedalaman laut",
+                    "C. Jenis vegetasi",
+                    "D. Kepadatan penduduk"
+                ],
+                answer: 1,
+                explanation: "Pada peta, gradasi warna biru menunjukkan kedalaman laut, semakin tua warnanya semakin dalam laut tersebut."
+            },
+            {
+                question: "11. Peninggalan masa neolitikum adalah...",
+                options: [
+                    "A. Kapak perimbas",
+                    "B. Menhir",
+                    "C. Nekara",
+                    "D. Candrasa"
+                ],
+                answer: 1,
+                explanation: "Menhir adalah batu tegak dari masa neolitikum yang digunakan sebagai tempat pemujaan."
+            },
+            {
+                question: "12. Sistem pemerintahan Indonesia adalah...",
+                options: [
+                    "A. Monarki absolut",
+                    "B. Demokrasi liberal",
+                    "C. Presidensial",
+                    "D. Parlementer"
+                ],
+                answer: 2,
+                explanation: "Indonesia menganut sistem pemerintahan presidensial dimana presiden sebagai kepala negara dan kepala pemerintahan."
+            },
+            {
+                question: "13. Ciri negara berkembang adalah...",
+                options: [
+                    "A. Pendapatan per kapita tinggi",
+                    "B. Ketergantungan pada sektor industri",
+                    "C. Angka pengangguran rendah",
+                    "D. Ketergantungan pada sektor primer"
+                ],
+                answer: 3,
+                explanation: "Negara berkembang umumnya masih bergantung pada sektor primer seperti pertanian dan pertambangan."
+            },
+            {
+                question: "14. Pengertian inflasi adalah...",
+                options: [
+                    "A. Penurunan harga barang secara umum",
+                    "B. Kenaikan harga barang secara umum dan terus menerus",
+                    "C. Stabilitas harga barang",
+                    "D. Penurunan nilai uang terhadap emas"
+                ],
+                answer: 1,
+                explanation: "Inflasi adalah kondisi dimana harga barang dan jasa naik secara umum dan terus menerus dalam waktu tertentu."
+            },
+            {
+                question: "15. Fungsi pasar dalam kegiatan ekonomi adalah...",
+                options: [
+                    "A. Tempat rekreasi keluarga",
+                    "B. Tempat bertemunya penjual dan pembeli",
+                    "C. Tempat penyimpanan barang",
+                    "D. Tempat produksi barang"
+                ],
+                answer: 1,
+                explanation: "Fungsi utama pasar adalah sebagai tempat bertemunya penjual dan pembeli untuk melakukan transaksi ekonomi."
+            },
+            {
+                question: "16. Dampak negatif globalisasi ekonomi adalah...",
+                options: [
+                    "A. Meningkatnya kerjasama internasional",
+                    "B. Memudarnya batas-batas ekonomi negara",
+                    "C. Terjadinya kesenjangan ekonomi",
+                    "D. Meningkatnya transfer teknologi"
+                ],
+                answer: 2,
+                explanation: "Globalisasi ekonomi dapat memperlebar kesenjangan antara negara kaya dan miskin, serta antara pengusaha besar dan kecil."
+            },
+            {
+                question: "17. Risiko bencana di pegunungan adalah...",
+                options: [
+                    "A. Banjir bandang",
+                    "B. Tanah longsor",
+                    "C. Abrasi",
+                    "D. Rob"
+                ],
+                answer: 1,
+                explanation: "Daerah pegunungan rawan terjadi tanah longsor terutama saat musim hujan atau akibat penggundulan hutan."
+            },
+            {
+                question: "18. Tantangan tenaga kerja di Indonesia adalah...",
+                options: [
+                    "A. Keterampilan yang tidak sesuai kebutuhan pasar",
+                    "B. Jumlah tenaga kerja yang sedikit",
+                    "C. Tingkat pendidikan yang merata",
+                    "D. Lapangan kerja yang melimpah"
+                ],
+                answer: 0,
+                explanation: "Banyak tenaga kerja Indonesia yang kurang memiliki keterampilan sesuai kebutuhan industri modern."
+            },
+            {
+                question: "19. Contoh akulturasi budaya Hindu-Buddha dan Islam adalah...",
+                options: [
+                    "A. Masjid dengan atap tumpang",
+                    "B. Gereja bergaya gotik",
+                    "C. Pagoda dengan kubah",
+                    "D. Candi tanpa relief"
+                ],
+                answer: 0,
+                explanation: "Atap tumpang pada masjid menunjukkan pengaruh arsitektur Hindu-Buddha dalam bangunan Islam."
+            },
+            {
+                question: "20. Syarat interaksi sosial adalah...",
+                options: [
+                    "A. Kontak dan komunikasi",
+                    "B. Konflik dan kompetisi",
+                    "C. Imitasi dan sugesti",
+                    "D. Identifikasi dan simpati"
+                ],
+                answer: 0,
+                explanation: "Interaksi sosial memerlukan kontak (langsung/tidak langsung) dan komunikasi antar pelaku."
+            },
+            {
+                question: "21. Bagian penting dari ekosistem hutan adalah...",
+                options: [
+                    "A. Pohon sebagai produsen",
+                    "B. Bangunan tinggi",
+                    "C. Jalan aspal",
+                    "D. Kendaraan bermotor"
+                ],
+                answer: 0,
+                explanation: "Pohon sebagai produsen sangat penting dalam ekosistem hutan karena menghasilkan oksigen dan menjadi dasar rantai makanan."
+            },
+            {
+                question: "22. Pengertian migrasi adalah...",
+                options: [
+                    "A. Perpindahan penduduk dalam satu daerah",
+                    "B. Perpindahan penduduk antar daerah",
+                    "C. Pertumbuhan penduduk alami",
+                    "D. Perubahan mata pencaharian"
+                ],
+                answer: 1,
+                explanation: "Migrasi adalah perpindahan penduduk dari satu daerah ke daerah lain dengan tujuan menetap."
+            },
+            {
+                question: "23. Faktor pendorong urbanisasi adalah...",
+                options: [
+                    "A. Lapangan kerja yang luas di desa",
+                    "B. Fasilitas kesehatan yang memadai di kota",
+                    "C. Lingkungan yang asri di desa",
+                    "D. Upah kerja yang tinggi di kota"
+                ],
+                answer: 3,
+                explanation: "Upah kerja yang lebih tinggi di kota menjadi salah satu faktor utama pendorong urbanisasi."
+            },
+            {
+                question: "24. Rumah adat Joglo berasal dari...",
+                options: [
+                    "A. Sumatera Barat",
+                    "B. Jawa Tengah",
+                    "C. Kalimantan Timur",
+                    "D. Sulawesi Selatan"
+                ],
+                answer: 1,
+                explanation: "Rumah Joglo adalah rumah adat khas Jawa Tengah yang biasanya dimiliki oleh keluarga mampu."
+            },
+            {
+                question: "25. Upaya di bidang pertambangan untuk pertumbuhan ekonomi adalah...",
+                options: [
+                    "A. Mengekspor bahan mentah saja",
+                    "B. Mengolah bahan tambang menjadi produk jadi",
+                    "C. Mengurangi produksi tambang",
+                    "D. Menutup pertambangan"
+                ],
+                answer: 1,
+                explanation: "Dengan mengolah bahan tambang menjadi produk jadi, nilai tambah akan diperoleh di dalam negeri."
+            },
+            {
+                question: "26. Pengertian distribusi adalah...",
+                options: [
+                    "A. Kegiatan menghasilkan barang",
+                    "B. Kegiatan menyalurkan barang dari produsen ke konsumen",
+                    "C. Kegiatan menggunakan barang",
+                    "D. Kegiatan menukar barang dengan uang"
+                ],
+                answer: 1,
+                explanation: "Distribusi adalah kegiatan menyalurkan barang/jasa dari produsen ke konsumen melalui berbagai saluran."
+            },
+            {
+                question: "27. Sumber pendapatan negara Brunei adalah...",
+                options: [
+                    "A. Minyak bumi dan gas alam",
+                    "B. Pariwisata",
+                    "C. Pertanian",
+                    "D. Industri tekstil"
+                ],
+                answer: 0,
+                explanation: "Brunei Darussalam sangat bergantung pada minyak bumi dan gas alam sebagai sumber pendapatan utama."
+            },
+            {
+                question: "28. Kasta Brahmana dalam sistem kasta Hindu bertugas sebagai...",
+                options: [
+                    "A. Pedagang",
+                    "B. Tentara",
+                    "C. Rohaniawan",
+                    "D. Buruh"
+                ],
+                answer: 2,
+                explanation: "Kasta Brahmana adalah kasta tertinggi dalam Hindu yang bertugas sebagai pemimpin spiritual dan agama."
+            },
+            {
+                question: "29. Negara penyumbang penduduk terbesar di Asia adalah...",
+                options: [
+                    "A. Jepang",
+                    "B. India",
+                    "C. Indonesia",
+                    "D. China"
+                ],
+                answer: 3,
+                explanation: "China merupakan negara dengan jumlah penduduk terbesar di Asia dan dunia."
+            },
+            {
+                question: "30. Faktor pendorong perdagangan antardaerah adalah...",
+                options: [
+                    "A. Kesamaan sumber daya alam",
+                    "B. Perbedaan sumber daya alam",
+                    "C. Jumlah penduduk yang sama",
+                    "D. Iklim yang seragam"
+                ],
+                answer: 1,
+                explanation: "Perbedaan sumber daya alam antar daerah mendorong terjadinya perdagangan untuk saling memenuhi kebutuhan."
+            },
+            {
+                question: "31. Perubahan sosial progresif adalah...",
+                options: [
+                    "A. Perubahan yang membawa kemunduran",
+                    "B. Perubahan yang membawa kemajuan",
+                    "C. Perubahan yang tidak berpengaruh",
+                    "D. Perubahan yang bersifat siklus"
+                ],
+                answer: 1,
+                explanation: "Perubahan progresif membawa kemajuan dan perbaikan dalam kehidupan masyarakat."
+            },
+            {
+                question: "32. Ciri modernisasi adalah...",
+                options: [
+                    "A. Berpegang teguh pada tradisi lama",
+                    "B. Penggunaan teknologi sederhana",
+                    "C. Perubahan orientasi dari tradisional ke rasional",
+                    "D. Menolak perubahan sosial"
+                ],
+                answer: 2,
+                explanation: "Modernisasi ditandai dengan perubahan pola pikir dari tradisional ke rasional dan ilmiah."
+            },
+            {
+                question: "33. Tantangan globalisasi informasi adalah...",
+                options: [
+                    "A. Akses informasi yang lambat",
+                    "B. Penyebaran hoaks dan informasi palsu",
+                    "C. Kurangnya media informasi",
+                    "D. Terbatasnya jaringan internet"
+                ],
+                answer: 1,
+                explanation: "Era globalisasi informasi dihadapkan pada tantangan penyebaran berita bohong yang cepat dan luas."
+            },
+            {
+                question: "34. Tujuan utama ASEAN adalah...",
+                options: [
+                    "A. Mempercepat pertumbuhan ekonomi",
+                    "B. Membentuk aliansi militer",
+                    "C. Menciptakan mata uang tunggal",
+                    "D. Menghapus batas negara"
+                ],
+                answer: 0,
+                explanation: "Tujuan utama ASEAN adalah mempercepat pertumbuhan ekonomi, kemajuan sosial, dan pengembangan kebudayaan."
+            },
+            {
+                question: "35. Tujuan MEA adalah...",
+                options: [
+                    "A. Membentuk pasar tunggal di Asia Tenggara",
+                    "B. Membuat kebijakan moneter tunggal",
+                    "C. Menghapus keragaman budaya",
+                    "D. Membentuk pemerintahan bersama"
+                ],
+                answer: 0,
+                explanation: "MEA (Masyarakat Ekonomi ASEAN) bertujuan menciptakan pasar tunggal dan basis produksi di kawasan ASEAN."
+            },
+            {
+                question: "36. Fungsi sungai di Jepang adalah...",
+                options: [
+                    "A. Sebagai pembuangan limbah utama",
+                    "B. Untuk transportasi barang jarak jauh",
+                    "C. Sumber pembangkit listrik tenaga air",
+                    "D. Tempat rekreasi air saja"
+                ],
+                answer: 2,
+                explanation: "Sungai di Jepang banyak dimanfaatkan untuk pembangkit listrik tenaga air karena topografinya yang berbukit."
+            },
+            {
+                question: "37. Dampak globalisasi budaya adalah...",
+                options: [
+                    "A. Memudarnya budaya lokal",
+                    "B. Menguatnya tradisi lokal",
+                    "C. Menghilangkan budaya asing",
+                    "D. Membuat budaya statis"
+                ],
+                answer: 0,
+                explanation: "Globalisasi budaya dapat mengikis budaya lokal karena dominasi budaya asing melalui media dan produk global."
+            },
+            {
+                question: "38. Dampak positif globalisasi politik adalah...",
+                options: [
+                    "A. Meningkatkan kerjasama internasional",
+                    "B. Melemahkan kedaulatan negara",
+                    "C. Menciptakan konflik antarnegara",
+                    "D. Mengurangi transparansi pemerintahan"
+                ],
+                answer: 0,
+                explanation: "Globalisasi politik memudahkan kerjasama internasional dalam menyelesaikan masalah global."
+            },
+            {
+                question: "39. Perubahan masyarakat jaringan adalah...",
+                options: [
+                    "A. Interaksi sosial yang semakin terbatas",
+                    "B. Komunikasi yang semakin lambat",
+                    "C. Hubungan sosial melalui media digital",
+                    "D. Menurunnya penggunaan teknologi"
+                ],
+                answer: 2,
+                explanation: "Masyarakat jaringan ditandai dengan hubungan sosial yang banyak terbentuk melalui jaringan digital."
+            },
+            {
+                question: "40. Prinsip \"protect\" dalam kewarganegaraan digital adalah...",
+                options: [
+                    "A. Membagikan data pribadi secara bebas",
+                    "B. Melindungi diri dari ancaman digital",
+                    "C. Mengabaikan keamanan informasi",
+                    "D. Membuka akses ke perangkat orang lain"
+                ],
+                answer: 1,
+                explanation: "Prinsip protect berarti melindungi diri dari berbagai ancaman di dunia digital seperti penipuan dan peretasan."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let userAnswers = Array(questions.length).fill(null);
+        let quizStarted = false;
+
+        function displayQuestion() {
+            const quizElement = document.getElementById('quiz');
+            quizElement.innerHTML = '';
+            
+            const questionElement = document.createElement('div');
+            questionElement.className = 'question';
+            questionElement.innerHTML = `<h3>${questions[currentQuestion].question}</h3>`;
+            
+            const optionsElement = document.createElement('div');
+            optionsElement.className = 'options';
+            
+            questions[currentQuestion].options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                
+                const radioInput = document.createElement('input');
+                radioInput.type = 'radio';
+                radioInput.name = 'answer';
+                radioInput.value = index;
+                radioInput.id = `option${index}`;
+                if (userAnswers[currentQuestion] === index) {
+                    radioInput.checked = true;
+                }
+                radioInput.onclick = () => {
+                    userAnswers[currentQuestion] = index;
+                };
+                
+                const label = document.createElement('label');
+                label.htmlFor = `option${index}`;
+                label.textContent = option;
+                
+                optionElement.appendChild(radioInput);
+                optionElement.appendChild(label);
+                optionsElement.appendChild(optionElement);
+            });
+            
+            questionElement.appendChild(optionsElement);
+            quizElement.appendChild(questionElement);
+            
+            // Update progress bar
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progress').style.width = `${progress}%`;
+            
+            // Update navigation buttons
+            document.getElementById('prev-btn').style.display = currentQuestion === 0 ? 'none' : 'block';
+            document.getElementById('next-btn').style.display = currentQuestion === questions.length - 1 ? 'none' : 'block';
+            document.getElementById('submit-btn').style.display = currentQuestion === questions.length - 1 ? 'block' : 'none';
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                displayQuestion();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                displayQuestion();
+            }
+        }
+
+        function showResult() {
+            let score = 0;
+            const answerComparison = document.getElementById('answer-comparison');
+            answerComparison.innerHTML = '<h2>Perbandingan Jawaban</h2>';
+            
+            for (let i = 0; i < questions.length; i++) {
+                const answerItem = document.createElement('div');
+                answerItem.className = 'answer-item';
+                
+                const questionNumber = document.createElement('div');
+                questionNumber.className = 'question-number';
+                questionNumber.textContent = `Soal ${i+1}: ${questions[i].question}`;
+                
+                const userAnswerDiv = document.createElement('div');
+                userAnswerDiv.className = 'user-answer';
+                
+                let userAnswerText = "Anda tidak menjawab";
+                if (userAnswers[i] !== null) {
+                    userAnswerText = `Jawaban Anda: ${questions[i].options[userAnswers[i]]}`;
+                }
+                
+                userAnswerDiv.innerHTML = userAnswers[i] === questions[i].answer ? 
+                    `<span class="correct">${userAnswerText} ✓</span>` : 
+                    `<span class="incorrect">${userAnswerText} ✗</span>`;
+                
+                const correctAnswerDiv = document.createElement('div');
+                correctAnswerDiv.className = 'correct-answer';
+                correctAnswerDiv.textContent = `Jawaban Benar: ${questions[i].options[questions[i].answer]}`;
+                
+                const explanationDiv = document.createElement('div');
+                explanationDiv.className = 'explanation';
+                explanationDiv.textContent = `Penjelasan: ${questions[i].explanation}`;
+                
+                answerItem.appendChild(questionNumber);
+                answerItem.appendChild(userAnswerDiv);
+                answerItem.appendChild(correctAnswerDiv);
+                answerItem.appendChild(explanationDiv);
+                answerComparison.appendChild(answerItem);
+                
+                if (userAnswers[i] === questions[i].answer) {
+                    score++;
+                }
+            }
+            
+            const percentage = (score / questions.length) * 100;
+            const resultElement = document.getElementById('result');
+            resultElement.textContent = `Nilai Anda: ${score} dari ${questions.length} (${percentage.toFixed(1)}%)`;
+            resultElement.classList.remove('hidden');
+            
+            document.getElementById('quiz').classList.add('hidden');
+            document.getElementById('prev-btn').classList.add('hidden');
+            document.getElementById('next-btn').classList.add('hidden');
+            document.getElementById('submit-btn').classList.add('hidden');
+            
+            // Show answer comparison and essay section
+            answerComparison.classList.remove('hidden');
+            document.getElementById('essay-section').classList.remove('hidden');
+            
+            // Add summary
+            const summary = document.createElement('div');
+            summary.className = 'summary';
+            summary.innerHTML = `Anda menjawab <span class="correct">${score} benar</span> dan <span class="incorrect">${questions.length - score} salah</span> dari ${questions.length} soal.`;
+            answerComparison.insertBefore(summary, answerComparison.firstChild.nextSibling);
+        }
+
+        // Initialize the quiz
+        displayQuestion();
+    </script>
+</body>
+</html>
