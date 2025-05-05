@@ -275,6 +275,638 @@
                 <td>Listrik, Magnet, dan Sumber Energi Alternatif</td>
                 <td>IX</td>
                 <td>Listrik Statis</td>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis IPA SMP/MTs</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1, h2 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        .quiz-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .question {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .options {
+            margin-left: 20px;
+        }
+        .option {
+            margin: 10px 0;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            display: block;
+            margin: 20px auto;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .result {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #e8f4fc;
+        }
+        .essay {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-left: 4px solid #3498db;
+            margin: 20px 0;
+        }
+        .hidden {
+            display: none;
+        }
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .nav-button {
+            width: 100px;
+        }
+        .progress-bar {
+            height: 10px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .progress {
+            height: 100%;
+            background-color: #2ecc71;
+            border-radius: 5px;
+            width: 0%;
+            transition: width 0.3s;
+        }
+        .answer-comparison {
+            margin-top: 30px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        }
+        .answer-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .question-number {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .user-answer {
+            color: #e74c3c;
+            margin: 5px 0;
+        }
+        .correct-answer {
+            color: #27ae60;
+            margin: 5px 0;
+        }
+        .correct {
+            color: #27ae60;
+        }
+        .incorrect {
+            color: #e74c3c;
+        }
+        .summary {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        .competency-info {
+            font-size: 0.9em;
+            color: #7f8c8d;
+            margin: 5px 0;
+        }
+        .text-quote {
+            font-style: italic;
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-left: 3px solid #3498db;
+            margin: 10px 0;
+        }
+        .science-image {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 10px auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 5px;
+        }
+        .formula {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: "Courier New", monospace;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Kuis IPA SMP/MTs</h1>
+    <h2>Tahun Ajaran 2024/2025</h2>
+    
+    <div class="progress-bar">
+        <div class="progress" id="progress"></div>
+    </div>
+    
+    <div id="quiz" class="quiz-container">
+        <!-- Questions will be inserted here by JavaScript -->
+    </div>
+    
+    <div class="navigation">
+        <button id="prev-btn" class="nav-button" onclick="prevQuestion()">Sebelumnya</button>
+        <button id="next-btn" class="nav-button" onclick="nextQuestion()">Selanjutnya</button>
+    </div>
+    
+    <button id="submit-btn" onclick="showResult()" class="hidden">Lihat Hasil</button>
+    
+    <div id="result" class="result hidden"></div>
+    
+    <div id="answer-comparison" class="answer-comparison hidden"></div>
+    
+    <div id="essay-section" class="hidden">
+        <h2>Pertanyaan Uraian</h2>
+        
+        <div class="essay">
+            <h3>1. Pengukuran</h3>
+            <p>Perhatikan gambar pengukuran berikut!</p>
+            <div class="science-image">
+                <!-- Placeholder for measurement image -->
+                [Gambar mistar dengan benda diukur panjangnya 4,7 cm]
+            </div>
+            <p><strong>Jawaban:</strong></p>
+            <p>Hasil pengukuran panjang benda tersebut adalah 4,7 cm. Cara membaca:</p>
+            <ol>
+                <li>Perhatikan skala nol pada mistar</li>
+                <li>Lihat ujung benda yang diukur</li>
+                <li>Baca skala yang bertepatan dengan ujung benda</li>
+                <li>Tambahkan estimasi satu desimal untuk ketelitian</li>
+            </ol>
+        </div>
+        
+        <div class="essay">
+            <h3>2. Perubahan Wujud Zat</h3>
+            <p>Jelaskan proses perubahan wujud yang terjadi ketika es batu dibiarkan di udara terbuka!</p>
+            <p><strong>Jawaban:</strong></p>
+            <p>Proses perubahan wujud yang terjadi:</p>
+            <ul>
+                <li><strong>Mencair</strong>: Es batu (padat) berubah menjadi air (cair) karena menyerap panas dari lingkungan</li>
+                <li><strong>Menguap</strong>: Air (cair) berubah menjadi uap air (gas) secara perlahan pada suhu ruang</li>
+                <li>Perubahan ini termasuk perubahan fisika karena tidak menghasilkan zat baru</li>
+            </ul>
+        </div>
+        
+        <div class="essay">
+            <h3>3. Ekosistem</h3>
+            <p>Analisislah interaksi antara lebah dan bunga pada suatu ekosistem!</p>
+            <p><strong>Jawaban:</strong></p>
+            <p>Interaksi antara lebah dan bunga merupakan simbiosis mutualisme karena:</p>
+            <ol>
+                <li>Lebah mendapatkan nektar sebagai sumber makanan</li>
+                <li>Bunga mendapat bantuan penyerbukan dari lebah</li>
+                <li>Kedua organisme saling menguntungkan</li>
+                <li>Hubungan ini penting untuk kelangsungan hidup kedua spesies</li>
+            </ol>
+        </div>
+        
+        <div class="essay">
+            <h3>4. Pencemaran Lingkungan</h3>
+            <p>Jelaskan upaya yang dapat dilakukan untuk mengatasi pencemaran udara di perkotaan!</p>
+            <p><strong>Jawaban:</strong></p>
+            <p>Upaya mengatasi pencemaran udara:</p>
+            <ul>
+                <li>Penggunaan transportasi umum untuk mengurangi emisi kendaraan</li>
+                <li>Penanaman pohon sebagai paru-paru kota</li>
+                <li>Penerapan teknologi ramah lingkungan di industri</li>
+                <li>Kampanye kesadaran masyarakat tentang bahaya polusi udara</li>
+                <li>Penerapan aturan ketat tentang emisi gas buang</li>
+            </ul>
+        </div>
+        
+        <div class="essay">
+            <h3>5. Konversi Suhu</h3>
+            <p>Sebuah termometer menunjukkan suhu 25°C. Konversikan suhu ini ke dalam skala Fahrenheit dan Kelvin!</p>
+            <p><strong>Jawaban:</strong></p>
+            <p>Konversi suhu:</p>
+            <div class="formula">
+                <p>Rumus konversi Celsius ke Fahrenheit: F = (9/5 × C) + 32</p>
+                <p>Rumus konversi Celsius ke Kelvin: K = C + 273</p>
+            </div>
+            <p>Perhitungan:</p>
+            <ol>
+                <li>Ke Fahrenheit: F = (9/5 × 25) + 32 = 45 + 32 = 77°F</li>
+                <li>Ke Kelvin: K = 25 + 273 = 298 K</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "1. Perhatikan gambar pengukuran panjang benda berikut!",
+                image: "ruler_measurement.jpg",
+                options: [
+                    "A. 4,5 cm",
+                    "B. 4,7 cm",
+                    "C. 4,8 cm",
+                    "D. 5,0 cm"
+                ],
+                answer: 1,
+                explanation: "Benda diukur dari skala 0 cm sampai tepat di 4,7 cm pada mistar. Pembacaan pengukuran harus memperhatikan skala terkecil alat ukur.",
+                competency: "3.1 Menerapkan konsep pengukuran berbagai besaran dengan menggunakan satuan standar (baku)",
+                indicator: "Menghitung hasil pengukuran sebuah benda",
+                level: "C3 (Menerapkan)"
+            },
+            {
+                question: "2. Perhatikan ilustrasi perubahan wujud berikut! Es batu di dalam gelas lama-kelamaan berubah menjadi air.",
+                options: [
+                    "A. Membeku",
+                    "B. Mencair",
+                    "C. Menguap",
+                    "D. Menyublim"
+                ],
+                answer: 1,
+                explanation: "Perubahan dari es (padat) menjadi air (cair) disebut mencair. Ini terjadi karena es menyerap panas dari lingkungan sekitar.",
+                competency: "3.3 Menjelaskan konsep campuran dan zat tunggal, sifat fisika dan kimia, perubahan fisika dan kimia",
+                indicator: "Memprediksi perubahan wujud yang terjadi",
+                level: "C2 (Memahami)"
+            },
+            {
+                question: "3. Komponen berikut yang termasuk abiotik dalam ekosistem adalah...",
+                options: [
+                    "A. Rumput, air, tanah",
+                    "B. Air, tanah, udara",
+                    "C. Udara, cacing, bakteri",
+                    "D. Tanah, pohon, sinar matahari"
+                ],
+                answer: 1,
+                explanation: "Komponen abiotik adalah komponen tak hidup dalam ekosistem seperti air, tanah, udara, suhu, dan cahaya matahari.",
+                competency: "3.2 Mengklasifikasikan makhluk hidup dan benda berdasarkan karakteristik yang diamati",
+                indicator: "Mengklasifikasikan komponen biotik dan abiotik penyusun ekosistem",
+                level: "C4 (Menganalisis)"
+            },
+            {
+                question: "4. Interaksi antara bunga dengan lebah termasuk jenis simbiosis...",
+                options: [
+                    "A. Parasitisme",
+                    "B. Komensalisme",
+                    "C. Mutualisme",
+                    "D. Netralisme"
+                ],
+                answer: 2,
+                explanation: "Hubungan mutualisme karena lebah mendapat nektar dan bunga terbantu penyerbukannya. Keduanya saling menguntungkan.",
+                competency: "3.7 Menganalisis interaksi antara makhluk hidup dan lingkungannya serta dinamika populasi",
+                indicator: "Menentukan jenis interaksi dan menjelaskan bentuk hubungan yang terjadi",
+                level: "C4 (Menganalisis)"
+            },
+            {
+                question: "5. Upaya yang tepat untuk mengatasi pencemaran udara dari asap kendaraan adalah...",
+                options: [
+                    "A. Membangun lebih banyak pabrik",
+                    "B. Menggunakan transportasi umum",
+                    "C. Menebang pohon di pinggir jalan",
+                    "D. Membakar sampah secara rutin"
+                ],
+                answer: 1,
+                explanation: "Penggunaan transportasi umum dapat mengurangi jumlah kendaraan pribadi sehingga menurunkan emisi gas buang.",
+                competency: "3.8 Menganalisis terjadinya pencemaran lingkungan dan dampaknya bagi ekosistem",
+                indicator: "Menentukan upaya memecahkan masalah pencemaran lingkungan",
+                level: "C4 (Menganalisis)"
+            },
+            {
+                question: "6. Suhu 30°C setara dengan...",
+                options: [
+                    "A. 86°F",
+                    "B. 303 K",
+                    "C. 273 K",
+                    "D. 50°F"
+                ],
+                answer: 1,
+                explanation: "Konversi ke Kelvin: K = °C + 273 = 30 + 273 = 303 K. Untuk Fahrenheit: F = (9/5 × 30) + 32 = 86°F.",
+                competency: "3.4 Menganalisis konsep suhu, pemuaian, kalor, perpindahan kalor",
+                indicator: "Menghitung konversi nilai suhu pada skala termometer berbeda",
+                level: "C3 (Menerapkan)"
+            },
+            {
+                question: "7. Planet yang memiliki ciri: berbatu, memiliki atmosfer tipis, dan memiliki dua satelit alami adalah...",
+                options: [
+                    "A. Venus",
+                    "B. Mars",
+                    "C. Jupiter",
+                    "D. Saturnus"
+                ],
+                answer: 1,
+                explanation: "Mars adalah planet berbatu dengan atmosfer tipis dan memiliki dua bulan kecil bernama Phobos dan Deimos.",
+                competency: "3.11 Menganalisis sistem tata surya, rotasi dan revolusi bumi dan bulan",
+                indicator: "Menyimpulkan nama planet berdasarkan ciri-cirinya",
+                level: "C4 (Menganalisis)"
+            },
+            {
+                question: "8. Perubahan energi yang terjadi pada setrika listrik adalah...",
+                options: [
+                    "A. Listrik → cahaya",
+                    "B. Listrik → panas",
+                    "C. Kimia → listrik",
+                    "D. Panas → listrik"
+                ],
+                answer: 1,
+                explanation: "Setrika mengubah energi listrik menjadi energi panas melalui elemen pemanas di dalamnya.",
+                competency: "3.5 Menganalisis konsep energi, berbagai sumber energi, dan perubahan bentuk energi",
+                indicator: "Menjelaskan perubahan energi yang terjadi pada alat listrik",
+                level: "C3 (Menerapkan)"
+            },
+            {
+                question: "9. Zat aditif yang berfungsi sebagai pengawet pada makanan adalah...",
+                options: [
+                    "A. Sakarin",
+                    "B. MSG",
+                    "C. Natrium benzoat",
+                    "D. Tartrazin"
+                ],
+                answer: 2,
+                explanation: "Natrium benzoat adalah pengawet makanan yang menghambat pertumbuhan mikroorganisme.",
+                competency: "3.6 Menjelaskan berbagai zat aditif dalam makanan dan minuman, zat adiktif, serta dampaknya terhadap kesehatan",
+                indicator: "Menentukan zat aditif yang tepat sesuai ilustrasi",
+                level: "C2 (Memahami)"
+            },
+            {
+                question: "10. Contoh penerapan Hukum III Newton dalam kehidupan sehari-hari adalah...",
+                options: [
+                    "A. Mobil yang bergerak kemudian direm",
+                    "B. Roket yang meluncur ke atas",
+                    "C. Bola yang menggelinding di lantai",
+                    "D. Buah jatuh dari pohon"
+                ],
+                answer: 1,
+                explanation: "Roket mendorong gas ke bawah (aksi) dan gas mendorong roket ke atas (reaksi), ini contoh Hukum III Newton tentang aksi-reaksi.",
+                competency: "3.2 Menganalisis gerak lurus, pengaruh gaya terhadap gerak berdasarkan hukum Newton",
+                indicator: "Mengidentifikasi peristiwa yang berkaitan dengan Hukum III Newton",
+                level: "C4 (Menganalisis)"
+            },
+            {
+                question: "11. Pada permainan tarik tambang, jika tim A menarik dengan gaya 300 N dan tim B 250 N, maka resultan gaya dan arahnya adalah...",
+                options: [
+                    "A. 50 N ke arah tim A",
+                    "B. 50 N ke arah tim B",
+                    "C. 550 N ke arah tim A",
+                    "D. 550 N ke arah tim B"
+                ],
+                answer: 0,
+                explanation: "Resultan gaya = 300 N - 250 N = 50 N ke arah tim A karena gaya tim A lebih besar.",
+                competency: "3.3 Menjelaskan konsep usaha, pesawat sederhana, dan penerapannya dalam kehidupan sehari-hari",
+                indicator: "Menghitung resultan gaya dan menentukan arahnya",
+                level: "C3 (Menerapkan)"
+            },
+            {
+                question: "12. Gerak lurus berubah beraturan (GLBB) ditunjukkan oleh peristiwa...",
+                options: [
+                    "A. Mobil bergerak lurus dengan kecepatan tetap",
+                    "B. Buah jatuh bebas dari pohon",
+                    "C. Kipas angin yang berputar",
+                    "D. Bandul jam yang berayun"
+                ],
+                answer: 1,
+                explanation: "Buah jatuh bebas mengalami percepatan gravitasi sehingga kecepatannya bertambah secara teratur (GLBB dipercepat).",
+                competency: "3.2 Menganalisis gerak lurus, pengaruh gaya terhadap gerak berdasarkan hukum Newton",
+                indicator: "Menentukan jenis gerak lurus berubah beraturan (GLBB)",
+                level: "C4 (Menganalisis)"
+            },
+            {
+                question: "13. Tekanan hidrostatis yang dialami ikan pada kedalaman 2 m (massa jenis air = 1000 kg/m³, g = 10 m/s²) adalah...",
+                options: [
+                    "A. 500 Pa",
+                    "B. 2000 Pa",
+                    "C. 20.000 Pa",
+                    "D. 200.000 Pa"
+                ],
+                answer: 2,
+                explanation: "P = ρ × g × h = 1000 × 10 × 2 = 20.000 Pa. Tekanan hidrostatis bergantung pada kedalaman dan massa jenis fluida.",
+                competency: "3.8 Menjelaskan tekanan zat dan penerapannya dalam kehidupan sehari-hari",
+                indicator: "Menghitung besarnya tekanan yang dialami ikan dalam air",
+                level: "C3 (Menerapkan)"
+            },
+            {
+                question: "14. Jika bandul sederhana berayun dari A-B-C-B-A, maka satu getaran penuh adalah...",
+                options: [
+                    "A. A-B-C",
+                    "B. A-B-C-B",
+                    "C. A-B-C-B-A",
+                    "D. B-C-B-A"
+                ],
+                answer: 2,
+                explanation: "Satu getaran penuh adalah gerakan bolak-balik lengkap dari titik awal kembali ke titik awal melalui titik ekstrim.",
+                competency: "3.11 Menganalisis konsep getaran, gelombang, dan bunyi dalam kehidupan sehari-hari",
+                indicator: "Menganalisis jumlah getaran yang terjadi",
+                level: "C4 (Menganalisis)"
+            },
+            {
+                question: "15. Contoh pemanfaatan bunyi pantul dalam kehidupan sehari-hari adalah...",
+                options: [
+                    "A. Ultrasonografi (USG)",
+                    "B. Pemanas listrik",
+                    "C. Mikroskop",
+                    "D. Termometer"
+                ],
+                answer: 0,
+                explanation: "USG menggunakan prinsip bunyi pantul (gelombang ultrasonik) untuk melihat gambar organ dalam tubuh.",
+                competency: "3.11 Menganalisis konsep getaran, gelombang, dan bunyi dalam kehidupan sehari-hari",
+                indicator: "Memberikan contoh pemanfaatan bunyi pantul",
+                level: "C2 (Memahami)"
+            }
+        ];
+
+        let currentQuestion = 0;
+        let userAnswers = Array(questions.length).fill(null);
+        let quizStarted = false;
+
+        function displayQuestion() {
+            const quizElement = document.getElementById('quiz');
+            quizElement.innerHTML = '';
+            
+            const questionElement = document.createElement('div');
+            questionElement.className = 'question';
+            questionElement.innerHTML = `<h3>${questions[currentQuestion].question}</h3>`;
+            
+            if (questions[currentQuestion].image) {
+                const imageElement = document.createElement('div');
+                imageElement.className = 'science-image';
+                imageElement.innerHTML = `[Gambar ilustrasi: ${questions[currentQuestion].image}]`;
+                questionElement.appendChild(imageElement);
+            }
+            
+            const competencyInfo = document.createElement('div');
+            competencyInfo.className = 'competency-info';
+            competencyInfo.innerHTML = `<strong>Kompetensi:</strong> ${questions[currentQuestion].competency}<br>
+                                       <strong>Indikator:</strong> ${questions[currentQuestion].indicator}<br>
+                                       <strong>Level Kognitif:</strong> ${questions[currentQuestion].level}`;
+            questionElement.appendChild(competencyInfo);
+            
+            const optionsElement = document.createElement('div');
+            optionsElement.className = 'options';
+            
+            questions[currentQuestion].options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                
+                const radioInput = document.createElement('input');
+                radioInput.type = 'radio';
+                radioInput.name = 'answer';
+                radioInput.value = index;
+                radioInput.id = `option${index}`;
+                if (userAnswers[currentQuestion] === index) {
+                    radioInput.checked = true;
+                }
+                radioInput.onclick = () => {
+                    userAnswers[currentQuestion] = index;
+                };
+                
+                const label = document.createElement('label');
+                label.htmlFor = `option${index}`;
+                label.textContent = option;
+                
+                optionElement.appendChild(radioInput);
+                optionElement.appendChild(label);
+                optionsElement.appendChild(optionElement);
+            });
+            
+            questionElement.appendChild(optionsElement);
+            quizElement.appendChild(questionElement);
+            
+            // Update progress bar
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progress').style.width = `${progress}%`;
+            
+            // Update navigation buttons
+            document.getElementById('prev-btn').style.display = currentQuestion === 0 ? 'none' : 'block';
+            document.getElementById('next-btn').style.display = currentQuestion === questions.length - 1 ? 'none' : 'block';
+            document.getElementById('submit-btn').style.display = currentQuestion === questions.length - 1 ? 'block' : 'none';
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                displayQuestion();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                displayQuestion();
+            }
+        }
+
+        function showResult() {
+            let score = 0;
+            const answerComparison = document.getElementById('answer-comparison');
+            answerComparison.innerHTML = '<h2>Perbandingan Jawaban</h2>';
+            
+            for (let i = 0; i < questions.length; i++) {
+                const answerItem = document.createElement('div');
+                answerItem.className = 'answer-item';
+                
+                const questionNumber = document.createElement('div');
+                questionNumber.className = 'question-number';
+                questionNumber.textContent = `Soal ${i+1}: ${questions[i].question}`;
+                
+                if (questions[i].image) {
+                    const imageElement = document.createElement('div');
+                    imageElement.className = 'science-image';
+                    imageElement.innerHTML = `[Gambar ilustrasi: ${questions[i].image}]`;
+                    answerItem.appendChild(imageElement);
+                }
+                
+                const competencyInfo = document.createElement('div');
+                competencyInfo.className = 'competency-info';
+                competencyInfo.innerHTML = `<em>${questions[i].competency}</em>`;
+                answerItem.appendChild(competencyInfo);
+                
+                const userAnswerDiv = document.createElement('div');
+                userAnswerDiv.className = 'user-answer';
+                
+                let userAnswerText = "Anda tidak menjawab";
+                if (userAnswers[i] !== null) {
+                    userAnswerText = `Jawaban Anda: ${questions[i].options[userAnswers[i]]}`;
+                }
+                
+                userAnswerDiv.innerHTML = userAnswers[i] === questions[i].answer ? 
+                    `<span class="correct">${userAnswerText} ✓</span>` : 
+                    `<span class="incorrect">${userAnswerText} ✗</span>`;
+                
+                const correctAnswerDiv = document.createElement('div');
+                correctAnswerDiv.className = 'correct-answer';
+                correctAnswerDiv.textContent = `Jawaban Benar: ${questions[i].options[questions[i].answer]}`;
+                
+                const explanationDiv = document.createElement('div');
+                explanationDiv.className = 'explanation';
+                explanationDiv.innerHTML = `<strong>Penjelasan:</strong> ${questions[i].explanation}`;
+                
+                answerItem.appendChild(questionNumber);
+                answerItem.appendChild(userAnswerDiv);
+                answerItem.appendChild(correctAnswerDiv);
+                answerItem.appendChild(explanationDiv);
+                answerComparison.appendChild(answerItem);
+                
+                if (userAnswers[i] === questions[i].answer) {
+                    score++;
+                }
+            }
+            
+            const percentage = (score / questions.length) * 100;
+            const resultElement = document.getElementById('result');
+            resultElement.textContent = `Nilai Anda: ${score} dari ${questions.length} (${percentage.toFixed(1)}%)`;
+            resultElement.classList.remove('hidden');
+            
+            document.getElementById('quiz').classList.add('hidden');
+            document.getElementById('prev-btn').classList.add('hidden');
+            document.getElementById('next-btn').classList.add('hidden');
+            document.getElementById('submit-btn').classList.add('hidden');
+            
+            // Show answer comparison and essay section
+            answerComparison.classList.remove('hidden');
+            document.getElementById('essay-section').classList.remove('hidden');
+            
+            // Add summary
+            const summary = document.createElement('div');
+            summary.className = 'summary';
+            summary.innerHTML = `Anda menjawab <span class="correct">${score} benar</span> dan <span class="incorrect">${questions.length - score} salah</span> dari ${questions.length} soal.`;
+            answerComparison.insertBefore(summary, answerComparison.firstChild.nextSibling);
+        }
+
+        // Initialize the quiz
+        displayQuestion();
+    </script>
+</body>
+    </html>
                 <td>Disajikan gambar dua benda bermuatan beserta beberapa pernyataan yang berkaitan dengan gambar tersebut, peserta didik dapat menentukan pernyataan yang tepat</td>
             </tr>
             <tr>
@@ -313,25 +945,7 @@
                 <td>34.</td>
                 <td>Menerapkan konsep Hukum Mendel dalam persilangan monohibrid dan dihibrid</td>
                 <td>Pewarisan Sifat dan Bioteknologi</td>
-                <td>IX</td>
-                <td>Persilangan Dihibrid</td>
-                <td>Disajkan informasi tentang persilangan dihibrid, peserta didik menemukan hasil persilangan pada keturunan F₂ dengan kriteria tertentu</td>
-            </tr>
-            <tr>
-                <td>35.</td>
-                <td>Menjelaskan berbagai macam kelainan genetik</td>
-                <td>Pewarisan Sifat dan Bioteknologi</td>
-                <td>IX</td>
-                <td>Kelainan Genetik</td>
-                <td>Peserta didik mampu memberikan contoh kelainan genetika yang dapat diwariskan pada manusia</td>
-            </tr>
-            <tr>
-                <td>36.</td>
-                <td>Menerapkan konsep bioteknologi dan perannya dalam kehidupan manusia</td>
-                <td>Pewarisan Sifat dan Bioteknologi</td>
-                <td>IX</td>
-                <td>Macam-Macam Bioteknologi</td>
-                <td>Disajikan ciri-ciri bioteknologi konvensional dan bioteknologi modern, peserta didik dapat mengelompokkan ciri-ciri tersebut dengan tepat</td>
+idik dapat mengelompokkan ciri-ciri tersebut dengan tepat</td>
             </tr>
             <tr>
                 <td>37.</td>
