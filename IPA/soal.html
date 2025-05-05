@@ -819,7 +819,6 @@
 
         let currentQuestion = 0;
         let userAnswers = Array(questions.length).fill(null);
-        let quizStarted = false;
 
         function displayQuestion() {
             const quizElement = document.getElementById('quiz');
@@ -829,11 +828,34 @@
             questionElement.className = 'question';
             questionElement.innerHTML = `<h3>${questions[currentQuestion].question}</h3>`;
             
+            // Add image if exists
             if (questions[currentQuestion].image) {
-                const imageElement = document.createElement('div');
-                imageElement.className = 'science-image';
-                imageElement.innerHTML = `[Gambar ilustrasi: ${questions[currentQuestion].image}]`;
-                questionElement.appendChild(imageElement);
+                const imageContainer = document.createElement('div');
+                imageContainer.className = 'science-image-container';
+                
+                const img = document.createElement('img');
+                img.src = questions[currentQuestion].image;
+                img.alt = 'Ilustrasi soal';
+                img.className = 'science-image';
+                img.onerror = function() {
+                    this.style.display = 'none';
+                    const caption = document.createElement('p');
+                    caption.textContent = '[Gambar tidak dapat dimuat]';
+                    caption.style.color = '#999';
+                    caption.style.fontStyle = 'italic';
+                    imageContainer.appendChild(caption);
+                };
+                
+                imageContainer.appendChild(img);
+                
+                if (questions[currentQuestion].imageCaption) {
+                    const caption = document.createElement('p');
+                    caption.className = 'image-caption';
+                    caption.textContent = questions[currentQuestion].imageCaption;
+                    imageContainer.appendChild(caption);
+                }
+                
+                questionElement.appendChild(imageContainer);
             }
             
             const competencyInfo = document.createElement('div');
@@ -911,11 +933,35 @@
                 questionNumber.className = 'question-number';
                 questionNumber.textContent = `Soal ${i+1}: ${questions[i].question}`;
                 
+                // Add image in answer review if exists
                 if (questions[i].image) {
-                    const imageElement = document.createElement('div');
-                    imageElement.className = 'science-image';
-                    imageElement.innerHTML = `[Gambar ilustrasi: ${questions[i].image}]`;
-                    answerItem.appendChild(imageElement);
+                    const imageContainer = document.createElement('div');
+                    imageContainer.className = 'science-image-container';
+                    
+                    const img = document.createElement('img');
+                    img.src = questions[i].image;
+                    img.alt = 'Ilustrasi soal';
+                    img.className = 'science-image';
+                    img.style.maxHeight = '200px';
+                    img.onerror = function() {
+                        this.style.display = 'none';
+                        const caption = document.createElement('p');
+                        caption.textContent = '[Gambar tidak dapat dimuat]';
+                        caption.style.color = '#999';
+                        caption.style.fontStyle = 'italic';
+                        imageContainer.appendChild(caption);
+                    };
+                    
+                    imageContainer.appendChild(img);
+                    
+                    if (questions[i].imageCaption) {
+                        const caption = document.createElement('p');
+                        caption.className = 'image-caption';
+                        caption.textContent = questions[i].imageCaption;
+                        imageContainer.appendChild(caption);
+                    }
+                    
+                    answerItem.appendChild(imageContainer);
                 }
                 
                 const competencyInfo = document.createElement('div');
